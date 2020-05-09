@@ -25,18 +25,18 @@ namespace WebParking.Controllers
 
         public IActionResult Index()
         {
-            var con = _context.Database.GetDbConnection();
-            var com = con.CreateCommand();
-            com.CommandText = "123214";
-            var reader = com.ExecuteReader();
-            while (reader.Read())
-            {
+            //var con = _context.Database.GetDbConnection();
+            //var com = con.CreateCommand();
+            //com.CommandText = "123214";
+            //var reader = com.ExecuteReader();
+            //while (reader.Read())
+            //{
                 
-            }
-            _context.Clients.Add(new Client() {FirstName = "123", LastName = "321"});
-            _context.SaveChanges();
+            //}
+            //_context.Clients.Add(new Client() {FirstName = "123", LastName = "321"});
+            //_context.SaveChanges();
 
-            var clients = _context.Clients.ToList();
+            //var clients = _context.Clients.ToList();
             return View();
         }
 
