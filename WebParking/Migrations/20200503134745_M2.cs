@@ -7,16 +7,16 @@ namespace WebParking.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "Clients",
+                "LastName",
+                "Clients",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "LastName",
-                table: "Clients");
+                "LastName",
+                "Clients");
         }
     }
 }

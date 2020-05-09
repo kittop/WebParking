@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebParking.Data;
 using WebParking.Domain;
 using WebParking.ViewModels;
 
 namespace WebParking.Controllers
-{ 
+{
     [Controller]
     [Route("Clients")]
     public class ClientsController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ClientsController(ApplicationDbContext context)
         {
@@ -29,15 +26,15 @@ namespace WebParking.Controllers
         }
 
         [HttpGet("Create")]
-        public IActionResult CreatePage()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(ClientCreateViewModel form)
+        public IActionResult CreatePost(ClientCreateViewModel form)
         {
-            Client tempClient = new Client {FirstName = form.FirstName, LastName = form.LastName};
+            var tempClient = new Client {FirstName = form.FirstName, LastName = form.LastName};
             _context.Clients.Add(tempClient);
             _context.SaveChanges();
             return Ok(tempClient);
@@ -46,7 +43,7 @@ namespace WebParking.Controllers
         [HttpPost("Edit")]
         public IActionResult Edit([FromQuery] long id)
         {
-            return Ok(new { Pepa = id, meow = true});
+            return Ok(new {Pepa = id, meow = true});
         }
     }
 }

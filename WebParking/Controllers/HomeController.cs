@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebParking.Data;
-using WebParking.Domain;
 using WebParking.Models;
 
 namespace WebParking.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -31,7 +25,7 @@ namespace WebParking.Controllers
             //var reader = com.ExecuteReader();
             //while (reader.Read())
             //{
-                
+
             //}
             //_context.Clients.Add(new Client() {FirstName = "123", LastName = "321"});
             //_context.SaveChanges();
@@ -48,7 +42,7 @@ namespace WebParking.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

@@ -7,20 +7,19 @@
 
 <table class="table table-striped table-bordered">
     <thead>
-        <tr>
-            <th>Имя</th>
-            <th>Фамилия</th>
-        </tr>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var elem in Model)
-        {
-            <tr>
-                <td>@elem.FirstName</td>
-                <td>@elem.LastName</td>
-            </tr>
-        }
+    @foreach (var elem in Model)
+    {
+        <tr>
+            <td>@elem.FirstName</td>
+            <td>@elem.LastName</td>
+        </tr>
+    }
     </tbody>
 
 </table>
-

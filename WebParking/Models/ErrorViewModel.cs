@@ -1,5 +1,3 @@
-using System;
-
 namespace WebParking.Models
 {
     public class ErrorViewModel
