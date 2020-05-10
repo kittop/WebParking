@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebParking.Data;
@@ -9,9 +10,10 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200510163613_M5")]
+    partial class M5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,41 +229,32 @@ namespace WebParking.Migrations
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("CURRENT_DATE");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Document")
-                        .HasColumnType("character varying(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("text");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Passport")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Telephone")
                         .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Document")
-                        .IsUnique();
 
                     b.ToTable("Clients");
                 });

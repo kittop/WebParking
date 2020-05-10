@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebParking.Data;
@@ -36,20 +37,47 @@ namespace WebParking.Controllers
         [HttpPost("Create")]
         public IActionResult CreatePost(ClientCreateViewModel form)
         {
-            var tempClient = new Client
+            if (!ModelState.IsValid)
             {
-                FirstName = form.FirstName,
-                LastName = form.LastName,
-                Telephone = form.Telephone,
-                DateOfBirth = form.DateOfBirth,
-                Notes = form.Notes,
-                Passport = form.Passport,
-                Creation = System.DateTime.Now
-            };
+                return View("Create", form);
+            }
 
-            _context.Clients.Add(tempClient);
-            _context.SaveChanges();
-            return Ok(tempClient);
+            try
+            {
+                var tempClient = new Client
+                {
+                    FirstName = form.FirstName,
+                    LastName = form.LastName,
+                    Telephone = form.Telephone,
+                    DateOfBirth = form.DateOfBirth,
+                    Notes = form.Notes,
+                    Document = form.Passport,
+                    DocumentType = DocumentType.Passport
+                    //Creation = System.DateTime.Now
+                };
+
+                _context.Clients.Add(tempClient);
+                _context.SaveChanges();
+                return Ok(tempClient);
+            }
+            catch (Exception exception)
+            {
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Clients_Document")
+                {
+                    ModelState.AddModelError("123", "Данные документа, удостоверяющего личность, не уникальны!");
+                    //return BadRequest("Данные документа, удостоверяющего личность, не уникальны!");
+                } else
+                {
+                    throw;
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("Create", form);
+            }
+
+            return Ok();
         }
 
         [HttpPost("Edit")]

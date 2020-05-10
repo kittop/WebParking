@@ -7,9 +7,15 @@
 
 @using (Html.BeginForm("CreatePost", "Clients"))
 {
-    <label for="FirstName">Имя</label>
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
     <br />
-    @Html.TextBoxFor(model => model.FirstName)
+    <div class="form-group">
+        @Html.LabelFor(x => x.FirstName, "Имя")
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+    </div>
+
     <br />
 
     <label for="LastName">Фамилия</label>
@@ -36,6 +42,8 @@
     <br />
     @Html.TextBoxFor(model => model.Notes)
     <br />
+
+
 
     <input type="submit" value="Сохранить" />
 }

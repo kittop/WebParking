@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;//!
+using System.ComponentModel;
 
 namespace WebParking.ViewModels
 {
     public class ClientCreateViewModel
     {
-        [Required] public string FirstName { get; set; }
+        [Required(ErrorMessage = "Имя не указано")]
+        [MinLength(2), MaxLength(15)]
+        public string FirstName { get; set; }
 
         [Required] public string LastName { get; set; }
 

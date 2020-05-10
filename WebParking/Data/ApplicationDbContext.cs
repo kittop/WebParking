@@ -11,6 +11,20 @@ namespace WebParking.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Client>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<Client>()
+                .HasIndex(b => b.Document)
+                .IsUnique();
+
+        }
+
         public DbSet<Client> Clients { get; set; }
     }
 }
