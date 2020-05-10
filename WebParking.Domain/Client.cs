@@ -13,5 +13,23 @@ namespace WebParking.Domain
 
         [Required]
         public string LastName { get; set; }
+
+        [Required]
+        public string Telephone { get; set; }
+
+        //[Required]
+        //public int Category { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public string Passport { get; set; }
+
+        [Required]
+        public string Notes { get; set; }
+
+        [Required]
+        public DateTime Creation { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebParking.Data;
 using WebParking.Domain;
@@ -8,6 +9,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("Clients")]
+    //[Authorize] // только авторизованные
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,7 +36,17 @@ namespace WebParking.Controllers
         [HttpPost("Create")]
         public IActionResult CreatePost(ClientCreateViewModel form)
         {
-            var tempClient = new Client {FirstName = form.FirstName, LastName = form.LastName};
+            var tempClient = new Client
+            {
+                FirstName = form.FirstName,
+                LastName = form.LastName,
+                Telephone = form.Telephone,
+                DateOfBirth = form.DateOfBirth,
+                Notes = form.Notes,
+                Passport = form.Passport,
+                Creation = System.DateTime.Now
+            };
+
             _context.Clients.Add(tempClient);
             _context.SaveChanges();
             return Ok(tempClient);
@@ -43,7 +55,7 @@ namespace WebParking.Controllers
         [HttpPost("Edit")]
         public IActionResult Edit([FromQuery] long id)
         {
-            return Ok(new {Pepa = id, meow = true});
+            return Ok(new { Pepa = id, meow = true });
         }
     }
 }

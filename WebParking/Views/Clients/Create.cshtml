@@ -8,13 +8,34 @@
 @using (Html.BeginForm("CreatePost", "Clients"))
 {
     <label for="FirstName">Имя</label>
-    <br/>
+    <br />
     @Html.TextBoxFor(model => model.FirstName)
-    <br/>
+    <br />
 
     <label for="LastName">Фамилия</label>
-    <br/>
+    <br />
     @Html.TextBoxFor(model => model.LastName)
-    <br/>
-    <input type="submit" value="Сохранить"/>
+    <br />
+
+    <label for="Telephone">Телефон</label>
+    <br />
+    @Html.TextBoxFor(model => model.Telephone)
+    <br />
+
+    <label for="DateOfBirth">Дата рождения</label>
+    <br />
+    <input type="date" name="DateOfBirth">
+    <br />
+
+    <label for="Passport">Документ, удостоверяющий личность</label>
+    <br />
+    @Html.TextBoxFor(model => model.Passport)
+    <br />
+
+    <label for="Notes">Примечания</label>
+    <br />
+    @Html.TextBoxFor(model => model.Notes)
+    <br />
+
+    <input type="submit" value="Сохранить" />
 }
