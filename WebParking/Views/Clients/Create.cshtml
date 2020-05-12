@@ -7,43 +7,47 @@
 
 @using (Html.BeginForm("CreatePost", "Clients"))
 {
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-    <br />
     <div class="form-group">
         @Html.LabelFor(x => x.FirstName, "Имя")
         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
     </div>
 
-    <br />
+    <div class="form-group">
+        @Html.LabelFor(x => x.LastName, "Фамилия")
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+    </div>
 
-    <label for="LastName">Фамилия</label>
-    <br />
-    @Html.TextBoxFor(model => model.LastName)
-    <br />
+    <div class="form-group">
+        @Html.LabelFor(x => x.Telephone, "Телефон")
+        @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
+    </div>
 
-    <label for="Telephone">Телефон</label>
-    <br />
-    @Html.TextBoxFor(model => model.Telephone)
-    <br />
+    <div class="form-group">
+        @*<label for="DateOfBirth">Дата рождения</label>
+        <input type="date" name="DateOfBirth" class="form-control">*@
+        @Html.LabelFor(x => x.DateOfBirth, "Дата рождения")
+        <input type="date" asp-for="DateOfBirth" class="form-control">
+        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+    </div>
 
-    <label for="DateOfBirth">Дата рождения</label>
-    <br />
-    <input type="date" name="DateOfBirth">
-    <br />
+    <div class="form-group">
+        @Html.LabelFor(x => x.Passport, "Документ, удостоверяющий личность")
+        @Html.TextBoxFor(model => model.Passport, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Passport, "", new { @class = "text-danger" })
 
-    <label for="Passport">Документ, удостоверяющий личность</label>
-    <br />
-    @Html.TextBoxFor(model => model.Passport)
-    <br />
+    </div>
 
-    <label for="Notes">Примечания</label>
-    <br />
-    @Html.TextBoxFor(model => model.Notes)
-    <br />
+    <div class="form-group">
+        @Html.LabelFor(x => x.Notes, "Примечания")
+        @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+    </div>
 
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
 
-
-    <input type="submit" value="Сохранить" />
 }

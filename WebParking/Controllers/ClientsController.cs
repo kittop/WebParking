@@ -20,7 +20,7 @@ namespace WebParking.Controllers
             _context = context;
         }
 
-        [HttpGet("List")]
+        [HttpGet]
         public IActionResult List()
         {
             var clients = _context.Clients.ToList();
@@ -34,7 +34,7 @@ namespace WebParking.Controllers
             return View();
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult CreatePost(ClientCreateViewModel form)
         {
             if (!ModelState.IsValid)
@@ -53,18 +53,17 @@ namespace WebParking.Controllers
                     Notes = form.Notes,
                     Document = form.Passport,
                     DocumentType = DocumentType.Passport
-                    //Creation = System.DateTime.Now
                 };
 
                 _context.Clients.Add(tempClient);
                 _context.SaveChanges();
-                return Ok(tempClient);
+     
             }
             catch (Exception exception)
             {
                 if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Clients_Document")
                 {
-                    ModelState.AddModelError("123", "Данные документа, удостоверяющего личность, не уникальны!");
+                    ModelState.AddModelError(nameof(ClientCreateViewModel.Passport), "Данные документа, удостоверяющего личность, не уникальны!");
                     //return BadRequest("Данные документа, удостоверяющего личность, не уникальны!");
                 } else
                 {
@@ -77,11 +76,11 @@ namespace WebParking.Controllers
                 return View("Create", form);
             }
 
-            return Ok();
+            return RedirectToAction(nameof(List));
         }
 
-        [HttpPost("Edit")]
-        public IActionResult Edit([FromQuery] long id)
+        [HttpPost("Edit/{id}")]
+        public IActionResult Edit([FromRoute] long id)
         {
             return Ok(new { Pepa = id, meow = true });
         }
