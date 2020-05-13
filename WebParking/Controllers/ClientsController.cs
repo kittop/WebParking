@@ -64,7 +64,6 @@ namespace WebParking.Controllers
                 if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Clients_Document")
                 {
                     ModelState.AddModelError(nameof(ClientCreateViewModel.Passport), "Данные документа, удостоверяющего личность, не уникальны!");
-                    //return BadRequest("Данные документа, удостоверяющего личность, не уникальны!");
                 } else
                 {
                     throw;
