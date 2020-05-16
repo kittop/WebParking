@@ -20,25 +20,32 @@
                 <tr>
                     <th>Имя</th>
                     <th>Фамилия</th>
+                    <th>Отчество</th>
                     <th>Телефон</th>
                     <th>Дата рождения</th>
                     <th>Паспортные данные</th>
                     <th>Примечания</th>
                     <th>Создан</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var elem in Model)
                 {
-                    <tr>
-                        <td>@elem.FirstName</td>
-                        <td>@elem.LastName</td>
-                        <td>@elem.Telephone</td>
-                        <td>@elem.DateOfBirth.ToString("dd.MM.yyyy")</td>
-                        <td>@elem.Document</td>
-                        <td>@elem.Notes</td>
-                        <td>@elem.Creation</td>
-                    </tr>
+                <tr>
+                    <td>@elem.FirstName</td>
+                    <td>@elem.LastName</td>
+                    <td>@elem.MiddleName</td>
+                    <td>@elem.Telephone</td>
+                    <td>@elem.DateOfBirth.ToString("dd.MM.yyyy")</td>
+                    <td>@elem.Document</td>
+                    <td>@elem.Notes</td>
+                    <td>@elem.Creation</td>
+                    <td>
+                        <a role="button" class="btn btn-primary" href="/Clients/Edit/@elem.Id"><i class="fas fa-edit"></i></a>
+                        <button onclick="deleteConfirm(@elem.Id, '@($"{elem.LastName} {elem.FirstName} {elem.MiddleName}")')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
                 }
             </tbody>
 
@@ -49,6 +56,19 @@
 
 @section Scripts{
     <script>
+        function deleteConfirm(id, name) {
+
+            var isConfirmed = confirm(`Вы действительно хотите удалить клиента ${name}`);
+
+            if (isConfirmed) {
+                $.post('/Clients/Delete', { id }, function (result) {
+                    console.log(result)
+                    document.location.reload();
+                })
+
+            }
+
+        }
         $(document).ready(function () {
             $('#myTable').DataTable({
                 language: {

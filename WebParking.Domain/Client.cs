@@ -18,6 +18,10 @@ namespace WebParking.Domain
         public string LastName { get; set; }
 
         [Required]
+        [MinLength(2), MaxLength(20)]
+        public string MiddleName { get; set; }
+
+        [Required]
         [MinLength(2), MaxLength(30)]
         public string Telephone { get; set; }
 
