@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Win32.SafeHandles;
 using WebParking.Data;
-using WebParking.Domain;
+using WebParking.Domain.Models;
 using WebParking.ViewModels;
 
 namespace WebParking.Controllers
@@ -63,7 +61,7 @@ namespace WebParking.Controllers
                 //}
                 //else
                 //{
-                    throw;
+                throw;
                 //}
             }
 

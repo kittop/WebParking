@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
-using System.ComponentModel;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.ViewModels
 {

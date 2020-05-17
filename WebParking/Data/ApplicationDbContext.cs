@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebParking.Domain;
+using WebParking.Domain.Models;
 
 namespace WebParking.Data
 {

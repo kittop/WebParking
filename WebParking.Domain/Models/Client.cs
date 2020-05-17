@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebParking.Domain
+namespace WebParking.Domain.Models
 {
     public class Client
     {
