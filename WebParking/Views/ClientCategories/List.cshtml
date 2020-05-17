@@ -1,0 +1,70 @@
+﻿@model List<WebParking.Domain.ClientCategory>
+
+@{
+    ViewData["Title"] = "Категории клиентов";
+}
+
+@section Styles {
+    <link id="datatable-lang" href="~/lib/datatables/Russian.json" />
+}
+
+<div class="row">
+    <div class="col-12">
+        <a type="button" class="btn btn-primary float-right mb-3" href="/ClientCategories/Create">Добавить новую категорию</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table id="myTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Примечания</th>
+                    <th>Дата добавление</th>
+                    <th>Ответственный</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var elem in Model)
+                {
+                <tr>
+                    <td>@elem.Name</td>
+                    <td>@elem.Notes</td>
+                    <td>@elem.Creation</td>
+                    <td>@elem.Responsible</td>
+                    <td>
+                        <button onclick="deleteConfirm(@elem.Id, '@elem.Name')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function deleteConfirm(id, name) {
+
+            var isConfirmed = confirm(`Вы действительно хотите удалить категорию ${name}?`);
+
+            if (isConfirmed) {
+                $.post('/ClientCategories/Delete', { id }, function (result) {
+                    console.log(result)
+                    document.location.reload();
+                })
+
+            }
+        }
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                language: {
+                    url: $("#datatable-lang").attr("href")
+                },
+            });
+        });
+    </script>
+}
+

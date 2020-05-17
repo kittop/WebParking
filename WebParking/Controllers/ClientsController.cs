@@ -59,14 +59,15 @@ namespace WebParking.Controllers
 
                 _context.Clients.Add(tempClient);
                 _context.SaveChanges();
-     
+
             }
             catch (Exception exception)
             {
                 if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Clients_Document")
                 {
                     ModelState.AddModelError(nameof(ClientCreateViewModel.Passport), "Данные документа, удостоверяющего личность, не уникальны!");
-                } else
+                }
+                else
                 {
                     throw;
                 }

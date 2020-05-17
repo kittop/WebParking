@@ -4,7 +4,6 @@
     ViewData["Title"] = "Создание клиента";
 }
 
-
 @using (Html.BeginForm("CreatePost", "Clients"))
 {
     //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -35,7 +34,7 @@
 
     <div class="form-group">
         @Html.LabelFor(x => x.DateOfBirth, "Дата рождения")
-      
+
         @Html.TextBoxFor(model => model.DateOfBirth, "yyyy-MM-dd",
     new { @type = "date", @class = "form-control", @placeholder = "Укажите дату рождения!", min = DateTime.Now.AddYears(-200).ToString("yyyy-MM-dd"), max = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd") })
         @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
@@ -55,5 +54,4 @@
     </div>
 
     <input type="submit" value="Сохранить" class="btn btn-primary" />
-
 }

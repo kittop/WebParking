@@ -23,8 +23,13 @@ namespace WebParking.Data
                 .HasIndex(b => b.Document)
                 .IsUnique();
 
+            builder.Entity<ClientCategory>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
 
         public DbSet<Client> Clients { get; set; }
+
+        public DbSet<ClientCategory> ClientCategories { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace WebParking.Domain
         public long Id { get; set; }
 
         [Required]
-        [MinLength(2), MaxLength(20)]
+        [MinLength(2), MaxLength(15)]
         public string FirstName { get; set; }
 
         [Required]
@@ -34,10 +34,10 @@ namespace WebParking.Domain
         [Required]
         public DocumentType DocumentType { get; set; }
 
-        [MinLength(2), MaxLength(15)]
+        [MinLength(4), MaxLength(18)]
         public string Document { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(300)]
         public string Notes { get; set; }
 
         //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
