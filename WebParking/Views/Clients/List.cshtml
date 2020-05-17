@@ -42,7 +42,7 @@
                     <td>@elem.Notes</td>
                     <td>@elem.Creation</td>
                     <td>
-                        <a role="button" class="btn btn-primary" href="/Clients/Edit/@elem.Id"><i class="fas fa-edit"></i></a>
+                        <a role="button" class="btn btn-primary" asp-controller="Clients" asp-action="Edit" asp-route-id="@elem.Id"><i class="fas fa-edit"></i></a>
                         <button onclick="deleteConfirm(@elem.Id, '@($"{elem.LastName} {elem.FirstName} {elem.MiddleName}")')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
@@ -61,7 +61,7 @@
             var isConfirmed = confirm(`Вы действительно хотите удалить клиента ${name}`);
 
             if (isConfirmed) {
-                $.post('/Clients/Delete', { id }, function (result) {
+                $.post('@Url.Action("Delete", "Clients")', { id }, function (result) {
                     console.log(result)
                     document.location.reload();
                 })
