@@ -6,6 +6,8 @@ namespace WebParking.Migrations
 {
     public partial class M16 : Migration
     {
+
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
