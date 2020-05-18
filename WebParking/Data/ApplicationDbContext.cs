@@ -26,10 +26,22 @@ namespace WebParking.Data
             builder.Entity<ClientCategory>()
                 .Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<Auto>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<AutoCategory>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
 
         public DbSet<Client> Clients { get; set; }
 
         public DbSet<ClientCategory> ClientCategories { get; set; }
+
+        public DbSet<Auto> Auto { get; set; }
+
+        public DbSet<AutoCategory> AutoCategories { get; set; }
     }
 }
