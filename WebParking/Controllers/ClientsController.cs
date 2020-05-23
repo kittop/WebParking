@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,8 +25,8 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var categories = _context.ClientCategories.Include(x=>x.Clients).ToList();
-            var clients = _context.Clients.Include(x=>x.Category).ToList();
+            var categories = _context.ClientCategories.Include(x => x.Clients).ToList();
+            var clients = _context.Clients.Include(x => x.Category).ToList();
 
             return View(clients);
         }
@@ -35,7 +34,7 @@ namespace WebParking.Controllers
         [HttpGet("Create")]
         public IActionResult Create()
         {
-            var categories =  _context.ClientCategories.ToList();
+            var categories = _context.ClientCategories.ToList();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View();
         }
