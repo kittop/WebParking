@@ -21,7 +21,7 @@ namespace WebParking.ViewModels
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Минимальное количество символов не должно превышать 30!")]
         public string Telephone { get; set; }
 
-        //[Required] public int Category { get; set; }
+        [Required] public long CategoryId { get; set; }
 
         [Required(ErrorMessage = "Дата рождения не указана!")]
         [DataType(DataType.Date, ErrorMessage = "Дата рождения не указана!")]

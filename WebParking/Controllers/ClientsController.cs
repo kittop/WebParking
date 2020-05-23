@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using WebParking.Data;
 using WebParking.Domain.Models;
 using WebParking.ViewModels;
 
+
 namespace WebParking.Controllers
 {
     [Controller]
     [Route("Clients")]
-    //[Authorize] // только авторизованные
+    //[Authorize(Roles ="")] // только авторизованные
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +26,8 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var clients = _context.Clients.ToList();
+            var categories = _context.ClientCategories.Include(x=>x.Clients).ToList();
+            var clients = _context.Clients.Include(x=>x.Category).ToList();
 
             return View(clients);
         }
@@ -30,6 +35,8 @@ namespace WebParking.Controllers
         [HttpGet("Create")]
         public IActionResult Create()
         {
+            var categories =  _context.ClientCategories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View();
         }
 
@@ -49,6 +56,7 @@ namespace WebParking.Controllers
                     LastName = form.LastName,
                     MiddleName = form.MiddleName,
                     Telephone = form.Telephone,
+                    CategoryId = form.CategoryId,
                     DateOfBirth = form.DateOfBirth,
                     Notes = form.Notes,
                     Document = form.Passport,
@@ -92,6 +100,7 @@ namespace WebParking.Controllers
             clientEditViewModel.LastName = client.LastName;
             clientEditViewModel.FirstName = client.FirstName;
             clientEditViewModel.MiddleName = client.MiddleName;
+
             clientEditViewModel.Notes = client.Notes;
             clientEditViewModel.Passport = client.Document;
             clientEditViewModel.Telephone = client.Telephone;

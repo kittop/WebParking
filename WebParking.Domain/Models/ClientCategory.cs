@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.Domain.Models
@@ -20,5 +21,9 @@ namespace WebParking.Domain.Models
         //ответственный
         [Required] public int Responsible { get; set; }
 
+        public IList<Client> Clients{ get; set; }
+
+        // ClientCategories -[1]----[0..*]-> Clients
+        // Clients -[1]----[1]-> ClientCategories
     }
 }

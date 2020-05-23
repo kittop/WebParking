@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="~/lib/datatables/datatables.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.min.css" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -23,9 +24,6 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="List">Клиенты</a>
                         </li>
                         <li class="nav-item">
@@ -36,6 +34,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="AutoCategories" asp-action="List">Категории автомобилей</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tariffies" asp-action="List">Тарификация</a>
                         </li>
                     </ul>
                 </div>
@@ -57,6 +58,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="~/lib/datatables/datatables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
     @RenderSection("Scripts", false)
 </body>
 </html>

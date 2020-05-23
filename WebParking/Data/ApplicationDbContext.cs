@@ -34,6 +34,11 @@ namespace WebParking.Data
             builder.Entity<AutoCategory>()
                 .Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<Tariff>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -43,5 +48,7 @@ namespace WebParking.Data
         public DbSet<Auto> Auto { get; set; }
 
         public DbSet<AutoCategory> AutoCategories { get; set; }
+
+        public DbSet<Tariff> Tariffies { get; set; }
     }
 }

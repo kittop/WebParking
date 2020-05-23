@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using WebParking.Data;
@@ -23,6 +24,14 @@ namespace WebParking.Controllers
         public IActionResult List()
         {
             var clientCategories = _context.ClientCategories.ToList();
+
+            return View(clientCategories);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Detail(long id)
+        {
+            var clientCategories = _context.ClientCategories.Include(x => x.Clients).FirstOrDefault(x => x.Id == id);
 
             return View(clientCategories);
         }

@@ -33,6 +33,12 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(x => x.CategoryId, "Категория")
+        @Html.DropDownListFor(model => model.CategoryId, ViewBag.Categories as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(x => x.DateOfBirth, "Дата рождения")
 
         @Html.TextBoxFor(model => model.DateOfBirth, "yyyy-MM-dd",

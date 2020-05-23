@@ -1,0 +1,29 @@
+﻿@model WebParking.ViewModels.TariffCreateViewModel
+
+@{
+    ViewData["Title"] = "Создание тарифа";
+}
+
+@using (Html.BeginForm("CreatePost", "Tariffies"))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name, "Наименование")
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Price, "Цена")
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Notes, "Примечания")
+        @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+    </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+}
