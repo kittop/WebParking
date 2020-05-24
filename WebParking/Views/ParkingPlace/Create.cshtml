@@ -1,0 +1,38 @@
+﻿@model WebParking.ViewModels.ParkingPlaceCreateViewModel
+
+@{
+    ViewData["Title"] = "Создание парковочного места";
+}
+
+@using (Html.BeginForm("CreatePost", "ParkingPlace"))
+{
+    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name, "Наименование")
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+
+    // воткнуть CarCategory
+
+   // <div class="form-group">
+   //     @Html.LabelFor(x => x.CarCategory, "Категория авто")
+    //    @Html.TextBoxFor(model => model.CarCategory, new { @class = "form-control" })
+   //     @Html.ValidationMessageFor(model => model.CarCategory, "", new { @class = "text-danger" })
+   // </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Free, "Свободность (?)")
+        @Html.TextBoxFor(model => model.Free, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Free, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Notes, "Примечания")
+        @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+    </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+}
