@@ -15,6 +15,6 @@ namespace WebParking.ViewModels
         [Required] public DateTime Creation { get; set; }
 
         //ответственный
-        [Required] public int Responsible { get; set; }
+        [Required] public int Responsible { get; set; }//здесь тоже ссылка на парковочные места
     }
 }

@@ -12,7 +12,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("Clients")]
-    //[Authorize(Roles ="")] // только авторизованные
+    //[Authorize(Roles ="")] // только авторизованные vse
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;

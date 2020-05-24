@@ -9,7 +9,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("ParkingPlace")]
-    //[Authorize] // только авторизованные
+    //[Authorize] // только авторизованные - admin
     public class ParkingPlaceController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -104,6 +104,7 @@ namespace WebParking.Controllers
             {
                 parkingPlace.Name = form.Name;
                 parkingPlace.Free = form.Free;
+                //parkingPlace.CategoryId = form.Category.GetId()
                 parkingPlace.Notes = form.Notes;
 
                 _context.ParkingPlace.Update(parkingPlace);
@@ -123,7 +124,7 @@ namespace WebParking.Controllers
             var parkingPlace = _context.ParkingPlace.FirstOrDefault(x => x.Id == Id);
             if (parkingPlace == null)
             {
-                return NotFound("Не найден автомобиль с таким идентификатором!");
+                return NotFound("Не найдено парковочное место с таким идентификатором!");
             }
 
             _context.ParkingPlace.Remove(parkingPlace);

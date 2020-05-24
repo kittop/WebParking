@@ -9,7 +9,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("AutoCategories")]
-    //[Authorize] // только авторизованные
+    //[Authorize] // только авторизованные admin
     public class AutoCategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;

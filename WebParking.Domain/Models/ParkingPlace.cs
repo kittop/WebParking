@@ -11,9 +11,9 @@ namespace WebParking.Domain.Models
         [MinLength(2), MaxLength(15)]
         public string Name { get; set; }
 
-        public long CategoryId { get; set; }
+        //public long CategoryId { get; set; }
 
-        public AutoCategory Category { get; set; }
+        //public AutoCategory Category { get; set; } надо просто закомментить и посмотреть
 
         [Required]
         [MinLength(2), MaxLength(20)]

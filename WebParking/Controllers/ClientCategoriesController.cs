@@ -10,7 +10,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("ClientCategories")]
-    //[Authorize] // только авторизованные
+    //[Authorize] // только авторизованные admin
     public class ClientCategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
