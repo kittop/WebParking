@@ -9,6 +9,7 @@ namespace WebParking.ViewModels
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(15, ErrorMessage = "Максимальное количество символов не более 15!")]
         public string Name { get; set; }
 
+
         [Required(ErrorMessage = "Наличие свободного места не заполнено!")]
         //[MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не должно превышать 30!")]
         public bool Free { get; set; }
