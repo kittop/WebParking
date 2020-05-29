@@ -27,7 +27,7 @@ namespace WebParking.Domain.Models
 
         // Clients -[1]----[1]-> ClientCategories
         public ClientCategory Category { get; set; }
-
+         
         [Required]
         public DateTime DateOfBirth { get; set; }
 
@@ -40,7 +40,6 @@ namespace WebParking.Domain.Models
         [MaxLength(300)]
         public string Notes { get; set; }
 
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Required]
         public DateTime Creation { get; set; }
     }

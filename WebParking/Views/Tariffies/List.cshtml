@@ -50,10 +50,10 @@
     <script>
         function deleteConfirm(id, name) {
 
-            var isConfirmed = confirm(`Вы действительно хотите удалить клиента ${name}`);
+            var isConfirmed = confirm(`Вы действительно хотите удалить тариф ${name}`);
 
             if (isConfirmed) {
-                $.post('@Url.Action("Delete", "Clients")', { id }, function (result) {
+                $.post('@Url.Action("Delete", "Tariffies")', { id }, function (result) {
                     console.log(result)
                     document.location.reload();
                 })

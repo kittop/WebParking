@@ -19,7 +19,9 @@ namespace WebParking.Domain.Models
         public DateTime Creation { get; set; }
 
         //ответственный
-        [Required] public int Responsible { get; set; }
+        [Required] string Responsible { get; set; }
+
+        [Required] string ResponsibleId { get; set; }
 
         public IList<Client> Clients{ get; set; }
 
