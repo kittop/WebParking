@@ -62,6 +62,7 @@ namespace WebParking
             });
 
 
+
             // Автоматическая миграция БД при запуске
             using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
