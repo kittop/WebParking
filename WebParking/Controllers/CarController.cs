@@ -8,13 +8,13 @@ using WebParking.ViewModels;
 namespace WebParking.Controllers
 {
     [Controller]
-    [Route("Auto")]
+    [Route("Car")]
     //[Authorize] // только авторизованные vse
-    public class AutoController : Controller
+    public class CarController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AutoController(ApplicationDbContext context)
+        public CarController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,9 +22,9 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var auto = _context.Auto.ToList();
+            var car = _context.Car.ToList();
 
-            return View(auto);
+            return View(car);
         }
 
         [HttpGet("Create")]
@@ -34,7 +34,7 @@ namespace WebParking.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePost(AutoCreateViewModel form)
+        public IActionResult CreatePost(CarCreateViewModel form)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +43,7 @@ namespace WebParking.Controllers
 
             try
             {
-                var tempAuto = new Auto
+                var tempCar = new Car
                 {
                     Mark = form.Mark,
                     SatetNumber = form.SatetNumber,
@@ -52,7 +52,7 @@ namespace WebParking.Controllers
                     Notes = form.Notes,
                 };
 
-                _context.Auto.Add(tempAuto);
+                _context.Car.Add(tempCar);
                 _context.SaveChanges();
 
             }
@@ -72,47 +72,47 @@ namespace WebParking.Controllers
         [HttpGet("Edit/{id}")]
         public IActionResult Edit([FromRoute] long id)
         {
-            var auto = _context.Auto.FirstOrDefault(x => x.Id == id);
-            if (auto == null)
+            var car = _context.Car.FirstOrDefault(x => x.Id == id);
+            if (car == null)
             {
                 return NotFound("Не найден автомобиль с таким идентификатором!");
             }
 
-            AutoEditViewModel autoEditViewModel = new AutoEditViewModel();
-            autoEditViewModel.Mark = auto.Mark;
-            autoEditViewModel.SatetNumber = auto.SatetNumber;
-            autoEditViewModel.Color = auto.Color;
-            autoEditViewModel.Condition = auto.Condition;
-            autoEditViewModel.Notes = auto.Notes;
-            autoEditViewModel.Id = auto.Id;
+            CarEditViewModel carEditViewModel = new CarEditViewModel();
+            carEditViewModel.Mark = car.Mark;
+            carEditViewModel.SatetNumber = car.SatetNumber;
+            carEditViewModel.Color = car.Color;
+            carEditViewModel.Condition = car.Condition;
+            carEditViewModel.Notes = car.Notes;
+            carEditViewModel.Id = car.Id;
 
-            return View(autoEditViewModel);
+            return View(carEditViewModel);
         }
 
         [HttpPost("Edit")]
-        public IActionResult EditPost(AutoEditViewModel form)
+        public IActionResult EditPost(CarEditViewModel form)
         {
             if (!ModelState.IsValid)
             {
                 return View("Edit", form);
             }
 
-            var auto = _context.Auto.FirstOrDefault(x => x.Id == form.Id);
-            if (auto == null)
+            var car = _context.Car.FirstOrDefault(x => x.Id == form.Id);
+            if (car == null)
             {
                 return NotFound("Не найден автомобиль с таким идентификатором!");
             }
 
             try
             {
-                auto.Mark = form.Mark;
-                auto.SatetNumber = form.SatetNumber;
-                auto.Color = form.Color;
-                auto.Condition = form.Condition;
-                auto.Notes = form.Notes;
-                auto.Notes = form.Notes;
+                car.Mark = form.Mark;
+                car.SatetNumber = form.SatetNumber;
+                car.Color = form.Color;
+                car.Condition = form.Condition;
+                car.Notes = form.Notes;
+                car.Notes = form.Notes;
 
-                _context.Auto.Update(auto);
+                _context.Car.Update(car);
                 _context.SaveChanges();
             }
             catch (Exception exception)
@@ -126,13 +126,13 @@ namespace WebParking.Controllers
         [HttpPost("Delete")]
         public IActionResult Delete(long Id)
         {
-            var auto = _context.Auto.FirstOrDefault(x => x.Id == Id);
-            if (auto == null)
+            var car = _context.Car.FirstOrDefault(x => x.Id == Id);
+            if (car == null)
             {
                 return NotFound("Не найден автомобиль с таким идентификатором!");
             }
 
-            _context.Auto.Remove(auto);
+            _context.Car.Remove(car);
             _context.SaveChanges();
 
             return NoContent();

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.ViewModels
 {
-    public class AutoCreateViewModel
+    public class CarCreateViewModel
     {
         [Required(ErrorMessage = "Марка не указана!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(15, ErrorMessage = "Максимальное количество символов не более 15!")]

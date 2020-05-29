@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.ViewModels
 {
-    public class AutoEditViewModel
+    public class CarEditViewModel
     {
         [Required] public long Id { get; set; }
 

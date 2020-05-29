@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.Domain.Models
 {
-    public class AutoCategory
+    public class CarCategory
     {
         public long Id { get; set; }
 

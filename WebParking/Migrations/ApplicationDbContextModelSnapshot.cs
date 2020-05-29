@@ -217,7 +217,7 @@ namespace WebParking.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebParking.Domain.Models.Auto", b =>
+            modelBuilder.Entity("WebParking.Domain.Models.Car", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -255,7 +255,7 @@ namespace WebParking.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Auto");
+                    b.ToTable("Car");
                 });
 
             modelBuilder.Entity("WebParking.Domain.Models.AutoCategory", b =>

@@ -1,10 +1,10 @@
-﻿@model WebParking.ViewModels.AutoCategoriesCreateViewModel
+﻿@model WebParking.ViewModels.CarCategoriesCreateViewModel
 
 @{
     ViewData["Title"] = "Добавление категории транспорта";
 }
 
-@using (Html.BeginForm("CreatePost", "AutoCategories"))
+@using (Html.BeginForm("CreatePost", "CarCategories"))
 {
     <div class="form-group">
         @Html.LabelFor(x => x.Name, "Наименование")

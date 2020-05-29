@@ -22,9 +22,9 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var auto = _context.ParkingPlace.ToList();
+            var places = _context.ParkingPlace.ToList();
 
-            return View(auto);
+            return View(places);
         }
 
         [HttpGet("Create")]
