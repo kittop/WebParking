@@ -49,13 +49,13 @@ namespace WebParking.Data
 
         public DbSet<ClientCategory> ClientCategories { get; set; }
 
-        public DbSet<Car> Car { get; set; }
+        public DbSet<Car> Cars { get; set; }
 
         public DbSet<CarCategory> CarCategories { get; set; }
 
         public DbSet<Tariff> Tariffies { get; set; }
 
-        public DbSet<ParkingPlace> ParkingPlace { get; set; }
+        public DbSet<ParkingPlace> ParkingPlaces { get; set; }
 
     }
 }

@@ -10,8 +10,8 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200521090709_m17")]
-    partial class m17
+    [Migration("20200530062702_m1")]
+    partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,7 +219,7 @@ namespace WebParking.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebParking.Domain.Models.Auto", b =>
+            modelBuilder.Entity("WebParking.Domain.Models.Car", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,10 +257,10 @@ namespace WebParking.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Auto");
+                    b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("WebParking.Domain.Models.AutoCategory", b =>
+            modelBuilder.Entity("WebParking.Domain.Models.CarCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace WebParking.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AutoCategories");
+                    b.ToTable("CarCategories");
                 });
 
             modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
@@ -369,12 +369,71 @@ namespace WebParking.Migrations
                         .HasColumnType("character varying(300)")
                         .HasMaxLength(300);
 
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientCategories");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.ParkingPlace", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("Free")
+                        .HasColumnType("boolean")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ParkingPlaces");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.Tariff", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
                     b.Property<int>("Responsible")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientCategories");
+                    b.ToTable("Tariffies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

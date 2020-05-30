@@ -22,7 +22,7 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var car = _context.Car.ToList();
+            var car = _context.Cars.ToList();
 
             return View(car);
         }
@@ -52,7 +52,7 @@ namespace WebParking.Controllers
                     Notes = form.Notes,
                 };
 
-                _context.Car.Add(tempCar);
+                _context.Cars.Add(tempCar);
                 _context.SaveChanges();
 
             }
@@ -72,7 +72,7 @@ namespace WebParking.Controllers
         [HttpGet("Edit/{id}")]
         public IActionResult Edit([FromRoute] long id)
         {
-            var car = _context.Car.FirstOrDefault(x => x.Id == id);
+            var car = _context.Cars.FirstOrDefault(x => x.Id == id);
             if (car == null)
             {
                 return NotFound("Не найден автомобиль с таким идентификатором!");
@@ -97,7 +97,7 @@ namespace WebParking.Controllers
                 return View("Edit", form);
             }
 
-            var car = _context.Car.FirstOrDefault(x => x.Id == form.Id);
+            var car = _context.Cars.FirstOrDefault(x => x.Id == form.Id);
             if (car == null)
             {
                 return NotFound("Не найден автомобиль с таким идентификатором!");
@@ -112,7 +112,7 @@ namespace WebParking.Controllers
                 car.Notes = form.Notes;
                 car.Notes = form.Notes;
 
-                _context.Car.Update(car);
+                _context.Cars.Update(car);
                 _context.SaveChanges();
             }
             catch (Exception exception)
@@ -126,13 +126,13 @@ namespace WebParking.Controllers
         [HttpPost("Delete")]
         public IActionResult Delete(long Id)
         {
-            var car = _context.Car.FirstOrDefault(x => x.Id == Id);
+            var car = _context.Cars.FirstOrDefault(x => x.Id == Id);
             if (car == null)
             {
                 return NotFound("Не найден автомобиль с таким идентификатором!");
             }
 
-            _context.Car.Remove(car);
+            _context.Cars.Remove(car);
             _context.SaveChanges();
 
             return NoContent();

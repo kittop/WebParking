@@ -255,10 +255,10 @@ namespace WebParking.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Car");
+                    b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("WebParking.Domain.Models.AutoCategory", b =>
+            modelBuilder.Entity("WebParking.Domain.Models.CarCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,7 +284,7 @@ namespace WebParking.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AutoCategories");
+                    b.ToTable("CarCategories");
                 });
 
             modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
@@ -367,9 +367,6 @@ namespace WebParking.Migrations
                         .HasColumnType("character varying(300)")
                         .HasMaxLength(300);
 
-                    b.Property<int>("Responsible")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("ClientCategories");
@@ -381,9 +378,6 @@ namespace WebParking.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -405,9 +399,7 @@ namespace WebParking.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ParkingPlace");
+                    b.ToTable("ParkingPlaces");
                 });
 
             modelBuilder.Entity("WebParking.Domain.Models.Tariff", b =>
@@ -497,15 +489,6 @@ namespace WebParking.Migrations
                 {
                     b.HasOne("WebParking.Domain.Models.ClientCategory", "Category")
                         .WithMany("Clients")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.ParkingPlace", b =>
-                {
-                    b.HasOne("WebParking.Domain.Models.AutoCategory", "Category")
-                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

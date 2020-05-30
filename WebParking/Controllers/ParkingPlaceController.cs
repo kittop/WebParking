@@ -22,7 +22,7 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var places = _context.ParkingPlace.ToList();
+            var places = _context.ParkingPlaces.ToList();
 
             return View(places);
         }
@@ -51,7 +51,7 @@ namespace WebParking.Controllers
                     Notes = form.Notes
                 };
 
-                _context.ParkingPlace.Add(tempParkingPlace);
+                _context.ParkingPlaces.Add(tempParkingPlace);
                 _context.SaveChanges();
 
             }
@@ -71,7 +71,7 @@ namespace WebParking.Controllers
         [HttpGet("Edit/{id}")]
         public IActionResult Edit([FromRoute] long id)
         {
-            var parkingPlace = _context.ParkingPlace.FirstOrDefault(x => x.Id == id);
+            var parkingPlace = _context.ParkingPlaces.FirstOrDefault(x => x.Id == id);
             if (parkingPlace == null)
             {
                 return NotFound("Не найдено парковочное место с таким идентификатором!");
@@ -94,7 +94,7 @@ namespace WebParking.Controllers
                 return View("Edit", form);
             }
 
-            var parkingPlace = _context.ParkingPlace.FirstOrDefault(x => x.Id == form.Id);
+            var parkingPlace = _context.ParkingPlaces.FirstOrDefault(x => x.Id == form.Id);
             if (parkingPlace == null)
             {
                 return NotFound("Не найдено парковочное место с таким идентификатором!");
@@ -107,7 +107,7 @@ namespace WebParking.Controllers
                 //parkingPlace.CategoryId = form.Category.GetId()
                 parkingPlace.Notes = form.Notes;
 
-                _context.ParkingPlace.Update(parkingPlace);
+                _context.ParkingPlaces.Update(parkingPlace);
                 _context.SaveChanges();
             }
             catch (Exception exception)
@@ -121,13 +121,13 @@ namespace WebParking.Controllers
         [HttpPost("Delete")]
         public IActionResult Delete(long Id)
         {
-            var parkingPlace = _context.ParkingPlace.FirstOrDefault(x => x.Id == Id);
+            var parkingPlace = _context.ParkingPlaces.FirstOrDefault(x => x.Id == Id);
             if (parkingPlace == null)
             {
                 return NotFound("Не найдено парковочное место с таким идентификатором!");
             }
 
-            _context.ParkingPlace.Remove(parkingPlace);
+            _context.ParkingPlaces.Remove(parkingPlace);
             _context.SaveChanges();
 
             return NoContent();
