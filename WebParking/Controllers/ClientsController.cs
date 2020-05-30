@@ -31,6 +31,31 @@ namespace WebParking.Controllers
             return View(clients);
         }
 
+        [HttpGet]
+        [Route("GetAllJson")]
+        public IActionResult GetAllJson() { 
+            var clients = _context.Clients.Include(x => x.Category)
+                .Select(x => new { x.Id, x.FirstName, x.LastName, x.MiddleName, x.Telephone, x.DateOfBirth, Category = x.Category.Name });
+
+            return Ok(clients);
+        }
+
+        [HttpGet]
+        [Route("GetCars")]
+        public IActionResult GetCars(long id)
+        {
+
+            var result = _context.Clients.Include(x => x.Cars).Select(x => new { Cars = x.Cars.Select(y => new { y.Id, y.Mark, y.Condition}), x.Id})
+                .FirstOrDefault(x => x.Id == id);
+
+            if (result == null)
+            {
+                return NotFound(nameof(Client));    
+            }
+
+            return Ok(result.Cars);
+        }
+
         [HttpGet("Create")]
         public IActionResult Create()
         {

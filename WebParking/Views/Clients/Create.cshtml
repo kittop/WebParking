@@ -61,3 +61,17 @@
 
     <input type="submit" value="Сохранить" class="btn btn-primary" />
 }
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log('123');
+            console.log('number', 100.1);
+            $('#CategoryId').change(function () {
+                console.log($('#CategoryId').val());
+            });
+        }); 
+
+    </script>
+}

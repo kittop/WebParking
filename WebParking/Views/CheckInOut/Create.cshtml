@@ -1,0 +1,105 @@
+﻿@model WebParking.ViewModels.CheckInOutCreateViewModel
+
+@{
+    ViewData["Title"] = "Регистрация события";
+}
+
+@using (Html.BeginForm("CreatePost", "Clients"))
+{
+    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(x => x.CheckType, "Событие")
+        @Html.DropDownListFor(model => model.CheckType, ViewBag.CheckTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.CheckType, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.ClientId, "Клиент")
+        @Html.DropDownListFor(model => model.ClientId, new List<SelectListItem>(), new { @class="form-control" })
+        @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.CarId, "Машина")
+        @Html.DropDownListFor(model => model.CarId, new List<SelectListItem>(), new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.DateCheckOut, "Дата выезда")
+
+        @Html.TextBoxFor(model => model.DateCheckOut, "yyyy-MM-dd",
+    new { @type = "date", @class = "form-control", @placeholder = "Укажите дату рождения!", min = DateTime.Now })
+        @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.TariffId, "Тариф")
+        @Html.DropDownListFor(model => model.TariffId, new List<SelectListItem>(), new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.TariffId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.TotalHours, "Время на стойнке")
+        @Html.TextBoxFor(model => model.TotalHours, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.TotalHours, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Sum, "Стоимость")
+        @Html.TextBoxFor(model => model.Sum, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Sum, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Notes, "Примечания")
+        @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+    </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+}
+
+
+@section Scripts {
+    <script>
+        const USERS_URL = '@Url.Action("GetAllJson", "Clients")';
+        const CARS_URL = '@Url.Action("GetCars", "Clients")';
+
+        $(document).ready(function () {
+
+            $.get(USERS_URL, function (data) {
+
+                const clientSelect = $('#ClientId');
+
+                const options = data.map(el => $('<option />', { value: el.id, text: `${el.lastName} ${el.firstName} ${el.middleName}, ${el.telephone}` }));
+
+                clientSelect.append(options);
+                clientSelect.selectpicker({ liveSearch: true });
+                clientSelect.selectpicker('val', null);
+            });
+
+            $('#ClientId').change(function () {
+                //console.log(this);
+                const val = $(this).val()
+                console.log(val);
+                const finalUrl = CARS_URL + '?id=' + val;
+
+                $.get(finalUrl, function (data) {
+
+                    const carSelect = $('#CarId');
+                    carSelect.empty(); //очистка поля
+
+                    const options = data.map(el => $('<option />', { value: el.id, text: `${el.mark}, ${el.stateNumber}  `}));
+
+                    carSelect.append(options);
+                    //carSelect.selectpicker({ liveSearch: true });
+                    carSelect.selectpicker('refresh');
+                    carSelect.selectpicker('refresh');
+                });
+            });
+
+        });
+
+    </script>
+}

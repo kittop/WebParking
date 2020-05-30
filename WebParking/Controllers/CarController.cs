@@ -46,7 +46,7 @@ namespace WebParking.Controllers
                 var tempCar = new Car
                 {
                     Mark = form.Mark,
-                    SatetNumber = form.SatetNumber,
+                    StatetNumber = form.SatetNumber,
                     Color = form.Color,
                     Condition = form.Condition,
                     Notes = form.Notes,
@@ -80,7 +80,7 @@ namespace WebParking.Controllers
 
             CarEditViewModel carEditViewModel = new CarEditViewModel();
             carEditViewModel.Mark = car.Mark;
-            carEditViewModel.SatetNumber = car.SatetNumber;
+            carEditViewModel.SatetNumber = car.StatetNumber;
             carEditViewModel.Color = car.Color;
             carEditViewModel.Condition = car.Condition;
             carEditViewModel.Notes = car.Notes;
@@ -106,7 +106,7 @@ namespace WebParking.Controllers
             try
             {
                 car.Mark = form.Mark;
-                car.SatetNumber = form.SatetNumber;
+                car.StatetNumber = form.SatetNumber;
                 car.Color = form.Color;
                 car.Condition = form.Condition;
                 car.Notes = form.Notes;

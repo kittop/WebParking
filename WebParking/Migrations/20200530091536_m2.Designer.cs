@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebParking.Data;
@@ -9,9 +10,10 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200530091536_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,6 +306,9 @@ namespace WebParking.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<long?>("CarId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
@@ -347,6 +352,8 @@ namespace WebParking.Migrations
                         .HasMaxLength(30);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarId");
 
                     b.HasIndex("CategoryId");
 
@@ -504,7 +511,7 @@ namespace WebParking.Migrations
                         .IsRequired();
 
                     b.HasOne("WebParking.Domain.Models.Client", "Client")
-                        .WithMany("Cars")
+                        .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -512,6 +519,10 @@ namespace WebParking.Migrations
 
             modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
                 {
+                    b.HasOne("WebParking.Domain.Models.Car", null)
+                        .WithMany("Clients")
+                        .HasForeignKey("CarId");
+
                     b.HasOne("WebParking.Domain.Models.ClientCategory", "Category")
                         .WithMany("Clients")
                         .HasForeignKey("CategoryId")

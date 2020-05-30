@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.Domain.Models
@@ -42,6 +44,9 @@ namespace WebParking.Domain.Models
 
         [Required]
         public DateTime Creation { get; set; }
+
+        [Required]
+        public IList<Car> Cars { get; set; }
     }
     public enum DocumentType { Other, Passport };
 }

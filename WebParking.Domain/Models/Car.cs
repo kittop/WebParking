@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.Domain.Models
@@ -7,19 +8,19 @@ namespace WebParking.Domain.Models
     {
         public long Id { get; set; }
 
-        //[Required]
-        //public Client Client { get; set; }
+        [Required]
+        public Client Client { get; set; }
 
         [Required]
         [MinLength(2), MaxLength(30)]
         public string Mark { get; set; }
 
-        //[Required]
-        //public AutoCategory Category { get; set; }
+        [Required]
+        public CarCategory Category { get; set; }
 
         [Required]
         [MinLength(2), MaxLength(30)]
-        public string SatetNumber { get; set; }
+        public string StatetNumber { get; set; }
 
         [Required]
         [MinLength(2), MaxLength(30)]
@@ -34,5 +35,6 @@ namespace WebParking.Domain.Models
 
         [Required]
         public DateTime Creation { get; set; }
+
     }
 }
