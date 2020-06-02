@@ -22,24 +22,45 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Администрирование
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Пользователи</a>
+                            </div>
+                        </li>
+                    </ul>
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="List">Клиенты</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Справочники
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Категории клиентов</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="CarCategories" asp-action="List">Категории автомобилей</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="ParkingPlace" asp-action="List">Парковочные места</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Tariffies" asp-action="List">Тарификация</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ClientCategories" asp-action="List">Категории клиентов</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Регистрация
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Категории клиентов</a>
+                                <a class="dropdown-item asp-area="" asp-controller="Car" asp-action="List">Транспортные средства</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="List">Автомобили</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CarCategories" asp-action="List">Категории автомобилей</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tariffies" asp-action="List">Тарификация</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ParkingPlace" asp-action="List">Парковочные места</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Отчёты
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Отчёт 1</a>
+                                <a class="dropdown-item asp-area="" asp-controller="Car" asp-action="List">Отчёт 2</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
