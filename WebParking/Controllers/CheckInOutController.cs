@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("Check")]
-    //[Authorize] // только авторизованные vse
+    [Authorize] // только авторизованные vse
     public class CheckInOutController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using WebParking.Data;
@@ -10,7 +11,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("Tariffies")]
-    //[Authorize(Roles ="")] // только авторизованные - admin
+    [Authorize(Roles = "admin")] // только авторизованные - admin
     public class TariffiesController : Controller
     {
         private readonly ApplicationDbContext _context;

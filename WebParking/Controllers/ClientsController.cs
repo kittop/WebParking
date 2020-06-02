@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +13,7 @@ namespace WebParking.Controllers
 {
     [Controller]
     [Route("Clients")]
-    //[Authorize(Roles ="")] // только авторизованные vse
+    [Authorize]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;

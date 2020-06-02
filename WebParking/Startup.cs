@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,11 @@ namespace WebParking
 {
     public class Startup
     {
+        private const string defaultAdminEmail = "admin@web.parking";
+        private const string defaultAdminUserName = "admin";
+        private const string defaultAdminPassword = "admin123";
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,8 +31,18 @@ namespace WebParking
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<WebParkingUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+            services.AddDefaultIdentity<WebParkingUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -64,10 +80,37 @@ namespace WebParking
 
 
 
-            // Автоматическая миграция БД при запуске
-            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            context.Database.Migrate();
+            // Инициализация
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                // Автоматическая миграция БД при запуске
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+
+
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!roleManager.RoleExistsAsync(Roles.AdminRole).Result)
+                {
+                    var newRole = roleManager.CreateAsync(new IdentityRole(Roles.AdminRole)).Result;
+                }
+
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<WebParkingUser>>();
+
+                var existingAdmin = userManager.FindByNameAsync(defaultAdminUserName).Result;
+
+                if (existingAdmin == null)
+                {
+                    var newUser = new WebParkingUser { UserName = defaultAdminUserName, Email = defaultAdminEmail };
+                    _ = userManager.CreateAsync(newUser, defaultAdminPassword).Result;
+                    _ = userManager.AddToRoleAsync(newUser, "admin").Result;
+                }
+
+
+
+
+            }
+
         }
     }
 }
