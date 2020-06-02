@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebParking.Migrations
 {
-    public partial class m1 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,24 +61,6 @@ namespace WebParking.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cars",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Mark = table.Column<string>(maxLength: 30, nullable: false),
-                    SatetNumber = table.Column<string>(maxLength: 30, nullable: false),
-                    Color = table.Column<string>(maxLength: 30, nullable: false),
-                    Condition = table.Column<string>(maxLength: 300, nullable: false),
-                    Notes = table.Column<string>(maxLength: 300, nullable: true),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,6 +245,38 @@ namespace WebParking.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ClientId = table.Column<long>(nullable: false),
+                    Mark = table.Column<string>(maxLength: 30, nullable: false),
+                    CategoryId = table.Column<long>(nullable: false),
+                    StatetNumber = table.Column<string>(maxLength: 30, nullable: false),
+                    Color = table.Column<string>(maxLength: 30, nullable: false),
+                    Condition = table.Column<string>(maxLength: 300, nullable: false),
+                    Notes = table.Column<string>(maxLength: 300, nullable: true),
+                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_CarCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "CarCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cars_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -301,6 +315,16 @@ namespace WebParking.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cars_CategoryId",
+                table: "Cars",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_ClientId",
+                table: "Cars",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Clients_CategoryId",
                 table: "Clients",
                 column: "CategoryId");
@@ -330,13 +354,7 @@ namespace WebParking.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CarCategories");
-
-            migrationBuilder.DropTable(
                 name: "Cars");
-
-            migrationBuilder.DropTable(
-                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "ParkingPlaces");
@@ -349,6 +367,12 @@ namespace WebParking.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "CarCategories");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "ClientCategories");
