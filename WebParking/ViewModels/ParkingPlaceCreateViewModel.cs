@@ -15,7 +15,7 @@ namespace WebParking.ViewModels
         public bool Free { get; set; }
 
         //[Required] public long CategoryAuto { get; set; }//CarCategoryId и так везде плиз потому ч
-      //  public AutoCategoriesCreateViewModel Category { get; set; } //CarCategory  
+        //  public AutoCategoriesCreateViewModel Category { get; set; } //CarCategory  
 
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,12 +23,12 @@ namespace WebParking.Domain.Models
         [Required]
         [MinLength(2), MaxLength(30)]
         public string Telephone { get; set; }
-        
+
         public long CategoryId { get; set; }
 
         // Clients -[1]----[1]-> ClientCategories
         public ClientCategory Category { get; set; }
-         
+
         [Required]
         public DateTime DateOfBirth { get; set; }
 

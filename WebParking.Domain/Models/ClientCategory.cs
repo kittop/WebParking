@@ -23,7 +23,7 @@ namespace WebParking.Domain.Models
 
         [Required] string ResponsibleId { get; set; }
 
-        public IList<Client> Clients{ get; set; }
+        public IList<Client> Clients { get; set; }
 
         // ClientCategories -[1]----[0..*]-> Clients
         // Clients -[1]----[1]-> ClientCategories

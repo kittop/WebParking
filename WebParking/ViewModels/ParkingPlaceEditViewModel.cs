@@ -9,7 +9,7 @@ namespace WebParking.ViewModels
 
         [Required(ErrorMessage = "Наименование не указано!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не более 15!")]
-       
+
         public string Name { get; set; }
         // [Required] public long CategoryId { get; set; }
 

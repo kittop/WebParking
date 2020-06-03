@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using WebParking.Data;
-using WebParking.Domain.Models;
 using WebParking.ViewModels;
 
 namespace WebParking.Controllers
@@ -33,9 +30,9 @@ namespace WebParking.Controllers
         [HttpGet("Create")]
         public IActionResult Create()
         {
-            ViewBag.CheckTypes = new List<SelectListItem> { 
-                new SelectListItem { Text = "Аренда", Value = "0" }, 
-                new SelectListItem { Text = "Закрытие аренды", Value = "1" } 
+            ViewBag.CheckTypes = new List<SelectListItem> {
+                new SelectListItem { Text = "Аренда", Value = "0" },
+                new SelectListItem { Text = "Закрытие аренды", Value = "1" }
             };
 
             return View();
