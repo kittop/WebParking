@@ -9,21 +9,24 @@ namespace WebParking.Views.Users
     public class UsersPageModel : PageModel
     {
         private readonly UserManager<WebParkingUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public class UserListItemViewModel
         {
             public string Id { get; set; }
             public string Email { get; set; }
-            public string FirstName { get; internal set; }
-            public string LastName { get; internal set; }
-            public string MiddleName { get; internal set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string MiddleName { get; set; }
+            public bool IsAdmin { get; set; }
         }
 
         public IList<UserListItemViewModel> UserList { get; set; }
 
-        public UsersPageModel(UserManager<WebParkingUser> userManager)
+        public UsersPageModel(UserManager<WebParkingUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public void OnGet()
@@ -34,7 +37,8 @@ namespace WebParking.Views.Users
                 Email = x.Email,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
-                MiddleName = x.MiddleName
+                MiddleName = x.MiddleName,
+                IsAdmin = _userManager.IsInRoleAsync(x, Roles.AdminRole).Result
             }).ToList();
         }
     }
