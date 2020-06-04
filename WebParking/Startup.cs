@@ -13,7 +13,7 @@ namespace WebParking
     public class Startup
     {
         private const string defaultAdminEmail = "admin@web.parking";
-        private const string defaultAdminUserName = "admin";
+        private const string defaultAdminUserName = "admin@web.parking";
         private const string defaultAdminPassword = "admin123";
 
 
@@ -104,9 +104,6 @@ namespace WebParking
                     _ = userManager.CreateAsync(newUser, defaultAdminPassword).Result;
                     _ = userManager.AddToRoleAsync(newUser, "admin").Result;
                 }
-
-
-
 
             }
 
