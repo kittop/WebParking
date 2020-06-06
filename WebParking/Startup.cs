@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebParking.Areas.Identity.Data;
 using WebParking.Data;
+using WebParking.Domain.Models;
 
 namespace WebParking
 {

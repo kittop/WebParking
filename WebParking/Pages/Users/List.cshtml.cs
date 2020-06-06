@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
 using WebParking.Areas.Identity.Data;
+using WebParking.Domain.Models;
 
 namespace WebParking.Views.Users
 {

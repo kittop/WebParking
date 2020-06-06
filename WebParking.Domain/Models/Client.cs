@@ -38,6 +38,11 @@ namespace WebParking.Domain.Models
         [MinLength(4), MaxLength(18)]
         public string Document { get; set; }
 
+        //ответственный
+        [Required] public WebParkingUser Responsible { get; set; }
+
+        [Required] public string ResponsibleId { get; set; }
+
         [MaxLength(300)]
         public string Notes { get; set; }
 

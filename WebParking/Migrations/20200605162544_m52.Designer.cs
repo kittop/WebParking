@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebParking.Data;
@@ -9,9 +10,10 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200605162544_m52")]
+    partial class m52
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,273 +155,7 @@ namespace WebParking.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebParking.Domain.Models.Car", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ClientId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Condition")
-                        .IsRequired()
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Mark")
-                        .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StatetNumber")
-                        .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("ResponsibleId");
-
-                    b.HasIndex("StatetNumber")
-                        .IsUnique();
-
-                    b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.CarCategory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("ResponsibleId");
-
-                    b.ToTable("CarCategories");
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Document")
-                        .HasColumnType("character varying(18)")
-                        .HasMaxLength(18);
-
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("character varying(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Telephone")
-                        .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("Document")
-                        .IsUnique();
-
-                    b.HasIndex("ResponsibleId");
-
-                    b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.ClientCategory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("ResponsibleId");
-
-                    b.ToTable("ClientCategories");
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.ParkingPlace", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<bool>("Free")
-                        .HasColumnType("boolean")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("character varying(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResponsibleId");
-
-                    b.ToTable("ParkingPlaces");
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.Tariff", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("character varying(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResponsibleId");
-
-                    b.ToTable("Tariffies");
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.WebParkingUser", b =>
+            modelBuilder.Entity("WebParking.Areas.Identity.Data.WebParkingUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -492,6 +228,246 @@ namespace WebParking.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("WebParking.Domain.Models.Car", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ClientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Condition")
+                        .IsRequired()
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Mark")
+                        .IsRequired()
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("StatetNumber")
+                        .IsRequired()
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.CarCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Responsible")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResponsibleId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CarCategories");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Document")
+                        .HasColumnType("character varying(18)")
+                        .HasMaxLength(18);
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Telephone")
+                        .IsRequired()
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("Document")
+                        .IsUnique();
+
+                    b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.ClientCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Responsible")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResponsibleId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientCategories");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.ParkingPlace", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("Free")
+                        .HasColumnType("boolean")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ParkingPlaces");
+                });
+
+            modelBuilder.Entity("WebParking.Domain.Models.Tariff", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("character varying(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Responsible")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tariffies");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -503,7 +479,7 @@ namespace WebParking.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", null)
+                    b.HasOne("WebParking.Areas.Identity.Data.WebParkingUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -512,7 +488,7 @@ namespace WebParking.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", null)
+                    b.HasOne("WebParking.Areas.Identity.Data.WebParkingUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -527,7 +503,7 @@ namespace WebParking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", null)
+                    b.HasOne("WebParking.Areas.Identity.Data.WebParkingUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -536,7 +512,7 @@ namespace WebParking.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", null)
+                    b.HasOne("WebParking.Areas.Identity.Data.WebParkingUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -556,21 +532,6 @@ namespace WebParking.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.CarCategory", b =>
-                {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
@@ -578,39 +539,6 @@ namespace WebParking.Migrations
                     b.HasOne("WebParking.Domain.Models.ClientCategory", "Category")
                         .WithMany("Clients")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.ClientCategory", b =>
-                {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.ParkingPlace", b =>
-                {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.Tariff", b =>
-                {
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

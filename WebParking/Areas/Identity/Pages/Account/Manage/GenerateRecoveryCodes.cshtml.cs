@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using WebParking.Areas.Identity.Data;
+using WebParking.Domain.Models;
 
 namespace WebParking.Areas.Identity.Pages.Account.Manage
 {

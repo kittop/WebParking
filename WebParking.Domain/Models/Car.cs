@@ -32,6 +32,11 @@ namespace WebParking.Domain.Models
         [MaxLength(300)]
         public string Notes { get; set; }
 
+        //ответственный
+        [Required] public WebParkingUser Responsible { get; set; }
+
+        [Required] public string ResponsibleId { get; set; }
+
         [Required]
         public DateTime Creation { get; set; }
 

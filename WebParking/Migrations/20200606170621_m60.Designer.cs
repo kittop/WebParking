@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebParking.Data;
@@ -9,9 +10,10 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200606170621_m60")]
+    partial class m60
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,9 +209,6 @@ namespace WebParking.Migrations
 
                     b.HasIndex("ResponsibleId");
 
-                    b.HasIndex("StatetNumber")
-                        .IsUnique();
-
                     b.ToTable("Cars");
                 });
 
@@ -239,9 +238,6 @@ namespace WebParking.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.HasIndex("ResponsibleId");
 
@@ -339,9 +335,6 @@ namespace WebParking.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.HasIndex("ResponsibleId");
 

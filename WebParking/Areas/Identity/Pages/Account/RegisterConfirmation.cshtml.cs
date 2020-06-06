@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using System.Threading.Tasks;
-using WebParking.Areas.Identity.Data;
+using WebParking.Domain.Models;
 
 namespace WebParking.Areas.Identity.Pages.Account
 {

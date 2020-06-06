@@ -12,9 +12,12 @@ namespace WebParking.ViewModels
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Минимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }
 
-        [Required] public DateTime Creation { get; set; }
+        public DateTime Creation { get; set; }
 
         //ответственный
-        [Required] public int Responsible { get; set; }//здесь тоже ссылка на парковочные места
+        public string Responsible { get; set; }
+
+        public string ResponsibleId { get; set; }
+
     }
 }

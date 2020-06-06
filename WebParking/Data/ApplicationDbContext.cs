@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebParking.Areas.Identity.Data;
 using WebParking.Domain.Models;
 
 namespace WebParking.Data
@@ -16,34 +15,55 @@ namespace WebParking.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Client>()
-                .Property(x => x.Creation)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            builder.Entity<Client>()
-                .HasIndex(b => b.Document)
+            builder.Entity<Client>(x =>
+            {
+                x.HasIndex(b => b.Document)
                 .IsUnique();
 
-            builder.Entity<ClientCategory>()
-                .Property(x => x.Creation)
+                x.Property(x => x.Creation)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+
+            builder.Entity<ClientCategory>(x =>
+            {
+                x.Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            builder.Entity<Car>()
-                .Property(x => x.Creation)
+                x.HasIndex(b => b.Name)
+                .IsUnique();
+            });
+
+            builder.Entity<Car>(x =>
+            {
+                x.Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            builder.Entity<CarCategory>()
-                .Property(x => x.Creation)
+                x.HasIndex(b => b.StatetNumber)
+                .IsUnique();
+            });
+
+            builder.Entity<CarCategory>(x =>
+            {
+                x.Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            builder.Entity<Tariff>()
-                .Property(x => x.Creation)
+                x.HasIndex(b => b.Name)
+                .IsUnique();
+
+            });
+
+            builder.Entity<Tariff>(x =>
+            {
+                x.Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            builder.Entity<ParkingPlace>()
-                .Property(x => x.Creation)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
 
+            builder.Entity<ParkingPlace>(x =>
+            {
+                x.Property(x => x.Creation)
+                   .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
         }
 
         public DbSet<Client> Clients { get; set; }

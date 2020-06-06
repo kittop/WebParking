@@ -48,23 +48,17 @@ namespace WebParking.Controllers
                 var tempCarCategory = new CarCategory
                 {
                     Name = form.Name,
-                    Notes = form.Notes
+                    Notes = form.Notes,
+                    //Responsible = User.Identity.Name
                 };
 
                 _context.CarCategories.Add(tempCarCategory);
                 _context.SaveChanges();
 
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                //if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Clients_Document")
-                //{
-                //    ModelState.AddModelError(nameof(ClientCreateViewModel.Passport), "Данные документа, удостоверяющего личность, не уникальны!");
-                //}
-                //else
-                //{
                 throw;
-                //}
             }
 
             if (!ModelState.IsValid)
