@@ -8,12 +8,8 @@ namespace WebParking.Domain.Models
         public long Id { get; set; }
 
         [Required]
-        [MinLength(2), MaxLength(15)]
+        [MaxLength(20)]
         public string Name { get; set; }
-
-        //public long CategoryId { get; set; }
-
-        //public AutoCategory Category { get; set; } надо просто закомментить и посмотреть
 
         [Required]
         [MinLength(2), MaxLength(20)]
@@ -22,7 +18,6 @@ namespace WebParking.Domain.Models
         [MaxLength(300)]
         public string Notes { get; set; }
 
-        //ответственный
         [Required] public WebParkingUser Responsible { get; set; }
 
         [Required] public string ResponsibleId { get; set; }

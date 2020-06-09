@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using WebParking.Domain.Models;
 
 namespace WebParking.ViewModels
 {
@@ -23,11 +24,14 @@ namespace WebParking.ViewModels
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Минимальное количество символов не должно превышать 30!")]
         public string Telephone { get; set; }
 
-        //[Required] public int Category { get; set; }
+        [Required(ErrorMessage = "Категория не выбрана!")] public long CategoryId { get; set; }
 
         [Required(ErrorMessage = "Дата рождения не указана!")]
         [DataType(DataType.Date, ErrorMessage = "Дата рождения не указана!")]
         public DateTime DateOfBirth { get; set; }
+
+        [Required(ErrorMessage = "Тип документа, удостоверяющего личность, не указан!")]
+        public DocumentType DocumentType { get; set; }
 
         [Required(ErrorMessage = "Документ, удостоверяющий личность, не указан!")]
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(18, ErrorMessage = "Минимальное количество символов не должно превышать 18!")]
@@ -36,6 +40,8 @@ namespace WebParking.ViewModels
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Минимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }
 
-        [Required] public DateTime Creation { get; set; }
+        public string ResponsibleId { get; set; }
+
+        public DateTime Creation { get; set; }
     }
 }

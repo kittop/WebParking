@@ -81,7 +81,7 @@ namespace WebParking.Controllers
 
             CarEditViewModel carEditViewModel = new CarEditViewModel();
             carEditViewModel.Mark = car.Mark;
-            carEditViewModel.SatetNumber = car.StatetNumber;
+            carEditViewModel.StateNumber = car.StatetNumber;
             carEditViewModel.Color = car.Color;
             carEditViewModel.Condition = car.Condition;
             carEditViewModel.Notes = car.Notes;
@@ -107,7 +107,7 @@ namespace WebParking.Controllers
             try
             {
                 car.Mark = form.Mark;
-                car.StatetNumber = form.SatetNumber;
+                car.StatetNumber = form.StateNumber;
                 car.Color = form.Color;
                 car.Condition = form.Condition;
                 car.Notes = form.Notes;

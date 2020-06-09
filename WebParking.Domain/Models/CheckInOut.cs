@@ -25,10 +25,13 @@ namespace WebParking.Domain.Models
         public Car Car { get; set; }
 
         [Required]
-        public ParkingPlace ParkingPlaceId { get; set; }
+        public long ParkingPlaceId { get; set; }
 
         [Required]
         public ParkingPlace ParkingPlace { get; set; }
+
+        [Required]
+        public DateTime DateCheckOut { get; set; }
 
         [Required]
         public long TariffId { get; set; }
@@ -36,23 +39,16 @@ namespace WebParking.Domain.Models
         [Required]
         public Tariff Tariff { get; set; }
 
-
-        [Required]
-        public DateTime DateCheckOut { get; set; }
-
-
         public double TotalHours { get; set; }
 
         public double Sum { get; set; }
 
-        //ответственный
-        [Required] public WebParkingUser Responsible { get; set; }
-
-        [Required] public string ResponsibleId { get; set; }
-
         [MaxLength(300)]
         public string Notes { get; set; }
 
+        [Required] public DateTime Creation { get; set; }
+
+        [Required] public string ResponsibleId { get; set; }
     }
     public enum CheckType { Other, Passport };
 }

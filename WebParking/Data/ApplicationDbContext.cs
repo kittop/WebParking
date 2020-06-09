@@ -64,6 +64,13 @@ namespace WebParking.Data
                 x.Property(x => x.Creation)
                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
+
+            builder.Entity<CheckInOut>(x =>
+            {
+                x.Property(x => x.Creation)
+                   .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -77,6 +84,8 @@ namespace WebParking.Data
         public DbSet<Tariff> Tariffies { get; set; }
 
         public DbSet<ParkingPlace> ParkingPlaces { get; set; }
+
+        public DbSet<CheckInOut> CheckInOuts { get; set; }
 
     }
 }

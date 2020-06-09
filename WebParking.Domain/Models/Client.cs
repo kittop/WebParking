@@ -52,5 +52,5 @@ namespace WebParking.Domain.Models
         [Required]
         public IList<Car> Cars { get; set; }
     }
-    public enum DocumentType { Other, Passport };
+    public enum DocumentType { Passport, Other };
 }

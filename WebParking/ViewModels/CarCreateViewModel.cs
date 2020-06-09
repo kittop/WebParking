@@ -13,7 +13,7 @@ namespace WebParking.ViewModels
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не должно превышать 30!")]
         public string SatetNumber { get; set; }
 
-        //[Required] public int Category { get; set; }
+        [Required] public long CategoryId { get; set; }
 
         [Required(ErrorMessage = "Цвет не указан!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Минимальное количество символов не должно превышать 30!")]
@@ -21,8 +21,10 @@ namespace WebParking.ViewModels
 
         [Required(ErrorMessage = "Состояние автомобиля не указано!")]
         [MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
+
         public string Condition { get; set; }
 
+        public string ResponsibleId { get; set; }
 
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }

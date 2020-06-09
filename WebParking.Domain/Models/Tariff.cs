@@ -14,6 +14,9 @@ namespace WebParking.Domain.Models
         [Required]
         public double Price { get; set; }
 
+        [Required]
+        public AccrualType AccrualType { get; set; }
+
         [MaxLength(300)]
         public string Notes { get; set; }
 
@@ -25,4 +28,6 @@ namespace WebParking.Domain.Models
 
         [Required] public string ResponsibleId { get; set; }
     }
+    public enum AccrualType { Hourly, Daily };  //вид начисления
+
 }

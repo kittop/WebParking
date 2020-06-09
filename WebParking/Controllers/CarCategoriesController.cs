@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using WebParking.Data;
@@ -24,7 +25,7 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var carCategories = _context.CarCategories.ToList();
+            var carCategories = _context.CarCategories.Include(x => x.Responsible).ToList();
 
             return View(carCategories);
         }
@@ -49,7 +50,7 @@ namespace WebParking.Controllers
                 {
                     Name = form.Name,
                     Notes = form.Notes,
-                    //Responsible = User.Identity.Name
+                    ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
                 };
 
                 _context.CarCategories.Add(tempCarCategory);
@@ -64,6 +65,53 @@ namespace WebParking.Controllers
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
+            }
+
+            return RedirectToAction(nameof(List));
+        }
+
+        [HttpGet("Edit/{id}")]
+        public IActionResult Edit([FromRoute] long id)
+        {
+            var carCategory = _context.CarCategories.FirstOrDefault(x => x.Id == id);
+            if (carCategory == null)
+            {
+                return NotFound("Не найдена категория с таким идентификатором!");
+            }
+
+            CarCategoriesEditViewModel carCategoriesEditViewModel = new CarCategoriesEditViewModel();
+            carCategoriesEditViewModel.Id = carCategory.Id;
+            carCategoriesEditViewModel.Name = carCategory.Name;
+            carCategoriesEditViewModel.Notes = carCategory.Notes;
+
+            return View(carCategoriesEditViewModel);
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult EditPost(CarCategoriesEditViewModel form)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", form);
+            }
+
+            var carCategories = _context.CarCategories.FirstOrDefault(x => x.Id == form.Id);
+            if (carCategories == null)
+            {
+                return NotFound("Не найдена категория с таким идентификатором!");
+            }
+
+            try
+            {
+                carCategories.Name = form.Name;
+                carCategories.Notes = form.Notes;
+
+                _context.CarCategories.Update(carCategories);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
             return RedirectToAction(nameof(List));

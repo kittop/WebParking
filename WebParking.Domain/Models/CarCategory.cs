@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.Domain.Models
@@ -17,10 +18,11 @@ namespace WebParking.Domain.Models
         [Required]
         public DateTime Creation { get; set; }
 
-        //ответственный
         [Required] public WebParkingUser Responsible { get; set; }
 
         [Required] public string ResponsibleId { get; set; }
+
+        public IList<Car> Car { get; set; }
 
     }
 }

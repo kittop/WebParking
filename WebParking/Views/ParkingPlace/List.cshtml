@@ -11,6 +11,7 @@
 <div class="row">
     <div class="col-12">
         <a type="button" class="btn btn-primary float-right mb-3" href="/ParkingPlace/Create">Создать новое парковочное место</a>
+        <a type="button" class="btn btn-primary float-right mb-3 mr-2" href="/ParkingPlace/Create">Заполнить</a>
     </div>
 </div>
 <div class="row">
@@ -19,10 +20,10 @@
             <thead>
                 <tr>
                     <th>Наименование</th>
-                    <!--<th>Категория автомобиля</th>-->
-                    <th>Свободность (?)</th>
+                    <th>Свободно</th>
                     <th>Примечания</th>
                     <th>Создан</th>
+                    <th>Ответственный</th>
                     <th>Действия</th>
                 </tr>
             </thead>
@@ -31,9 +32,9 @@
                 {
                 <tr>
                     <td>@elem.Name</td>
-                    @*<td>@elem.CarCategory</td>*@
                     <td>@elem.Free</td>
                     <td>@elem.Notes</td>
+                    <td>@elem.Responsible.FullName</td>
                     <td>@elem.Creation</td>
                     <td>
                         <a role="button" class="btn btn-primary" asp-controller="ParkingPlace" asp-action="Edit" asp-route-id="@elem.Id"><i class="fas fa-edit"></i></a>

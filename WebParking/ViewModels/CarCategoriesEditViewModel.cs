@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.ViewModels
 {
-    public class CarCategoriesCreateViewModel
+    public class CarCategoriesEditViewModel
     {
+        [Required] public long Id { get; set; }
+
         [Required(ErrorMessage = "Наименование не заполнено!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не более 30!")]
         public string Name { get; set; }

@@ -20,6 +20,7 @@
                 <tr>
                     <th>Наименование</th>
                     <th>Цена</th>
+                    <th>Вид начисления</th>
                     <th>Примечания</th>
                     <th>Создан</th>
                     <th>Действия</th>
@@ -31,10 +32,11 @@
                 <tr>
                     <td>@elem.Name</td>
                     <td>@elem.Price</td>
+                    <td>@TariffiesController.AccrualTypesDesc[elem.AccrualType]</td>
                     <td>@elem.Notes</td>
                     <td>@elem.Creation</td>
                     <td>
-                        <a role="button" class="btn btn-primary" asp-controller="Tarrifies" asp-action="Edit" asp-route-id="@elem.Id"><i class="fas fa-edit"></i></a>
+                        <a role="button" class="btn btn-primary" asp-controller="Tariffies" asp-action="Edit" asp-route-id="@elem.Id"><i class="fas fa-edit"></i></a>
                         <button onclick="deleteConfirm(@elem.Id, '@elem.Name')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>

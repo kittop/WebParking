@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using WebParking.Data;
 using WebParking.Domain.Models;
 using WebParking.ViewModels;
@@ -24,8 +26,7 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var clientCategories = _context.ClientCategories.ToList();
-
+            var clientCategories = _context.ClientCategories.Include(x => x.Responsible).ToList();
             return View(clientCategories);
         }
 
@@ -43,9 +44,29 @@ namespace WebParking.Controllers
             return View();
         }
 
+        //public bool CheckClaim(System.Security.Claims.Claim claim)
+        //{
+        //    if (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+        //        return true;
+        //    else
+        //        return false;
+        //}
+
+        //public bool CheckClaim2(System.Security.Claims.Claim claim)
+        //{
+        //    return claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+        //}
+
+        //public static bool CheckClaim3(Claim claim) => 
+        //    claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+
+        //static Func<Claim, bool> CC4 = (x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"; 
+        //static Func<Claim, bool> CC5 = CC4;
+
         [HttpPost]
         public IActionResult CreatePost(ClientCategoriesCreateViewModel form)
         {
+
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
@@ -56,7 +77,8 @@ namespace WebParking.Controllers
                 var tempClientCategory = new ClientCategory
                 {
                     Name = form.Name,
-                    Notes = form.Notes
+                    Notes = form.Notes,
+                    ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
                 };
 
                 _context.ClientCategories.Add(tempClientCategory);
@@ -65,19 +87,59 @@ namespace WebParking.Controllers
             }
             catch (Exception exception)
             {
-                //if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Clients_Document")
-                //{
-                //    ModelState.AddModelError(nameof(ClientCreateViewModel.Passport), "Данные документа, удостоверяющего личность, не уникальны!");
-                //}
-                //else
-                //{
                 throw;
-                //}
             }
 
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
+            }
+
+            return RedirectToAction(nameof(List));
+        }
+
+        [HttpGet("Edit/{id}")]
+        public IActionResult Edit([FromRoute] long id)
+        {
+            var clientCategory = _context.ClientCategories.FirstOrDefault(x => x.Id == id);
+            if (clientCategory == null)
+            {
+                return NotFound("Не найдена категория с таким идентификатором!");
+            }
+
+            ClientCategoriesEditViewModel clientCategoriesEditViewModel = new ClientCategoriesEditViewModel();
+            clientCategoriesEditViewModel.Id = clientCategory.Id;
+            clientCategoriesEditViewModel.Name = clientCategory.Name;
+            clientCategoriesEditViewModel.Notes = clientCategory.Notes;
+            clientCategoriesEditViewModel.ResponsibleId = clientCategory.ResponsibleId;
+            return View(clientCategoriesEditViewModel);
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult EditPost(ClientCategoriesEditViewModel form)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", form);
+            }
+
+            var clientCategories = _context.ClientCategories.FirstOrDefault(x => x.Id == form.Id);
+            if (clientCategories == null)
+            {
+                return NotFound("Не найдена категория с таким идентификатором!");
+            }
+
+            try
+            {
+                clientCategories.Name = form.Name;
+                clientCategories.Notes = form.Notes;
+                clientCategories.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+                _context.ClientCategories.Update(clientCategories);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
             return RedirectToAction(nameof(List));

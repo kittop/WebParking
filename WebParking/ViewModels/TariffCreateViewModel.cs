@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using WebParking.Domain.Models;
 
 namespace WebParking.ViewModels
 {
@@ -12,12 +13,14 @@ namespace WebParking.ViewModels
         [Required(ErrorMessage = "Цена не указана!")]
         public double Price { get; set; }
 
+        [Required(ErrorMessage = "Вид начисления не указан!")]
+        public AccrualType AccrualType { get; set; }
+
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }
 
         [Required] public DateTime Creation { get; set; }
 
-        //ответственный
-        [Required] public int Responsible { get; set; }
+        public string ResponsibleId { get; set; }
     }
 }

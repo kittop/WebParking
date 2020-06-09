@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using WebParking.Data;
@@ -23,7 +24,7 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var places = _context.ParkingPlaces.ToList();
+            var places = _context.ParkingPlaces.Include(x => x.Responsible).ToList();
 
             return View(places);
         }
@@ -47,16 +48,16 @@ namespace WebParking.Controllers
                 var tempParkingPlace = new ParkingPlace
                 {
                     Name = form.Name,
-                    //CategoryId = form.CategoryId,
                     Free = form.Free,
-                    Notes = form.Notes
+                    Notes = form.Notes,
+                    ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
                 };
 
                 _context.ParkingPlaces.Add(tempParkingPlace);
                 _context.SaveChanges();
 
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }
@@ -79,10 +80,11 @@ namespace WebParking.Controllers
             }
 
             ParkingPlaceEditViewModel parkingPlaceEditViewModel = new ParkingPlaceEditViewModel();
-            parkingPlaceEditViewModel.Name = parkingPlaceEditViewModel.Name;
-            parkingPlaceEditViewModel.Free = parkingPlaceEditViewModel.Free;
-            parkingPlaceEditViewModel.Notes = parkingPlaceEditViewModel.Notes;
-            parkingPlaceEditViewModel.Id = parkingPlaceEditViewModel.Id;
+            parkingPlaceEditViewModel.Name = parkingPlace.Name;
+            parkingPlaceEditViewModel.Free = parkingPlace.Free;
+            parkingPlaceEditViewModel.ResponsibleId = parkingPlace.ResponsibleId;
+            parkingPlaceEditViewModel.Notes = parkingPlace.Notes;
+            parkingPlaceEditViewModel.Id = parkingPlace.Id;
 
             return View(parkingPlaceEditViewModel);
         }
@@ -105,13 +107,13 @@ namespace WebParking.Controllers
             {
                 parkingPlace.Name = form.Name;
                 parkingPlace.Free = form.Free;
-                //parkingPlace.CategoryId = form.Category.GetId()
+                parkingPlace.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
                 parkingPlace.Notes = form.Notes;
 
                 _context.ParkingPlaces.Update(parkingPlace);
                 _context.SaveChanges();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }

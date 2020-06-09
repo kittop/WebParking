@@ -18,13 +18,15 @@
         <table id="myTable" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Имя</th>
                     <th>Фамилия</th>
+                    <th>Имя</th>
                     <th>Отчество</th>
                     <th>Телефон</th>
                     <th>Дата рождения</th>
-                    <th>Паспортные данные</th>
+                    <th>Тип документа</th>
+                    <th>Номер документа</th>
                     <th>Примечания</th>
+                    <th>Ответственный</th>
                     <th>Создан</th>
                     <th>Действия</th>
                 </tr>
@@ -33,13 +35,15 @@
                 @foreach (var elem in Model)
                 {
                 <tr>
-                    <td>@elem.FirstName</td>
                     <td>@elem.LastName</td>
+                    <td>@elem.FirstName</td>
                     <td>@elem.MiddleName</td>
                     <td>@elem.Telephone</td>
                     <td>@elem.DateOfBirth.ToString("dd.MM.yyyy")</td>
+                    <td>@ClientsController.DocTypesDesc[elem.DocumentType]</td>
                     <td>@elem.Document</td>
                     <td>@elem.Notes</td>
+                    <td>@elem.Responsible.FullName</td>
                     <td>@elem.Creation</td>
                     <td>
                         <a role="button" class="btn btn-primary" asp-controller="Clients" asp-action="Edit" asp-route-id="@elem.Id"><i class="fas fa-edit"></i></a>

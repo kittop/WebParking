@@ -20,7 +20,7 @@
                 <tr>
                     <th>Наименование</th>
                     <th>Примечания</th>
-                    <th>Создан</th>
+                    <th>Дата добавления</th>
                     <th>Ответственный</th>
                     <th>Действия</th>
                 </tr>
@@ -32,8 +32,9 @@
                     <td>@elem.Name</td>
                     <td>@elem.Notes</td>
                     <td>@elem.Creation</td>
-                    <td>@elem.Responsible</td>
+                    <td>@elem.Responsible.FullName</td>
                     <td>
+                        <a role="button" class="btn btn-primary" asp-controller="CarCategories" asp-action="Edit" asp-route-id="@elem.Id"><i class="fas fa-edit"></i></a>
                         <button onclick="deleteConfirm(@elem.Id, '@elem.Name')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>

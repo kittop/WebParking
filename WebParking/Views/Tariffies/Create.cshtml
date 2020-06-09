@@ -20,6 +20,12 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(x => x.AccrualType, "Вид начисления")
+        @Html.DropDownListFor(model => model.AccrualType, ViewBag.AccrualTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.AccrualType, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(x => x.Notes, "Примечания")
         @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })

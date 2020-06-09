@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebParking.Data;
@@ -9,9 +10,10 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200607063534_m70")]
+    partial class m70
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,66 +250,6 @@ namespace WebParking.Migrations
                     b.ToTable("CarCategories");
                 });
 
-            modelBuilder.Entity("WebParking.Domain.Models.CheckInOut", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("CarId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("CheckType")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("ClientId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime>("DateCheckIn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("DateCheckOut")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
-
-                    b.Property<long>("ParkingPlaceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ResponsibleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double>("Sum")
-                        .HasColumnType("double precision");
-
-                    b.Property<long>("TariffId")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("TotalHours")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("ParkingPlaceId");
-
-                    b.HasIndex("TariffId");
-
-                    b.ToTable("CheckInOuts");
-                });
-
             modelBuilder.Entity("WebParking.Domain.Models.Client", b =>
                 {
                     b.Property<long>("Id")
@@ -426,8 +368,8 @@ namespace WebParking.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(15);
 
                     b.Property<string>("Notes")
                         .HasColumnType("character varying(300)")
@@ -450,9 +392,6 @@ namespace WebParking.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AccrualType")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -502,7 +441,6 @@ namespace WebParking.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
@@ -610,7 +548,7 @@ namespace WebParking.Migrations
             modelBuilder.Entity("WebParking.Domain.Models.Car", b =>
                 {
                     b.HasOne("WebParking.Domain.Models.CarCategory", "Category")
-                        .WithMany("Car")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -633,33 +571,6 @@ namespace WebParking.Migrations
                     b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
                         .WithMany()
                         .HasForeignKey("ResponsibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebParking.Domain.Models.CheckInOut", b =>
-                {
-                    b.HasOne("WebParking.Domain.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebParking.Domain.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebParking.Domain.Models.ParkingPlace", "ParkingPlace")
-                        .WithMany()
-                        .HasForeignKey("ParkingPlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebParking.Domain.Models.Tariff", "Tariff")
-                        .WithMany()
-                        .HasForeignKey("TariffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

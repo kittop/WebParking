@@ -1,24 +1,16 @@
-﻿@model WebParking.ViewModels.ParkingPlaceEditViewModel
+﻿@model WebParking.ViewModels.ClientCategoriesEditViewModel
 
 @{
-    ViewData["Title"] = "Редактирование парковочного места";
+    ViewData["Title"] = "Изменение категории клиента";
 }
 
-
-@using (Html.BeginForm("EditPost", "ParkingPlace"))
+@using (Html.BeginForm("EditPost", "ClientCategories"))
 {
-    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <input asp-for="Id" hidden />
     <div class="form-group">
         @Html.LabelFor(x => x.Name, "Наименование")
         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.Free, "Свободно")
-        @Html.CheckBoxFor(model => model.Free, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Free, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
@@ -28,5 +20,4 @@
     </div>
 
     <input type="submit" value="Сохранить" class="btn btn-primary" />
-
 }

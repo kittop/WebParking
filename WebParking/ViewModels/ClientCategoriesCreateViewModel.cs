@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using WebParking.Domain.Models;
 
 namespace WebParking.ViewModels
 {
@@ -13,9 +14,6 @@ namespace WebParking.ViewModels
         public string Notes { get; set; }
 
         public DateTime Creation { get; set; }
-
-        //ответственный
-        public string Responsible { get; set; }
 
         public string ResponsibleId { get; set; }
     }

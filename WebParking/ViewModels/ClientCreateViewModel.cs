@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using WebParking.Domain.Models;
 
 namespace WebParking.ViewModels
 {
@@ -18,7 +19,7 @@ namespace WebParking.ViewModels
         public string MiddleName { get; set; }
 
         [Required(ErrorMessage = "Телефон не указан!")]
-        [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Минимальное количество символов не должно превышать 30!")]
+        [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не должно превышать 30!")]
         public string Telephone { get; set; }
 
         [Required] public long CategoryId { get; set; }
@@ -27,13 +28,18 @@ namespace WebParking.ViewModels
         [DataType(DataType.Date, ErrorMessage = "Дата рождения не указана!")]
         public DateTime DateOfBirth { get; set; }
 
+        [Required(ErrorMessage = "Тип документа, удостоверяющего личность, не указан!")]
+        public DocumentType DocumentType { get; set; }
+
         [Required(ErrorMessage = "Документ, удостоверяющий личность, не указан!")]
-        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(18, ErrorMessage = "Минимальное количество символов не должно превышать 18!")]
+        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(18, ErrorMessage = "Максимальное количество символов не должно превышать 18!")]
         public string Passport { get; set; }
 
-        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Минимальное количество символов не должно превышать 300!")]
+        public string ResponsibleId { get; set; }
+
+        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }
 
-        [Required] public DateTime Creation { get; set; }
+        public DateTime Creation { get; set; }
     }
 }

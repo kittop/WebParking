@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using WebParking.Data;
 using WebParking.Domain.Models;
 using WebParking.ViewModels;
@@ -26,8 +28,7 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var categories = _context.ClientCategories.Include(x => x.Clients).ToList();
-            var clients = _context.Clients.Include(x => x.Category).ToList();
+            var clients = _context.Clients.Include(x => x.Category).Include(x => x.Responsible).ToList();
 
             return View(clients);
         }
@@ -58,11 +59,19 @@ namespace WebParking.Controllers
             return Ok(result.Cars);
         }
 
+        public static Dictionary<DocumentType, string> DocTypesDesc = new Dictionary<DocumentType, string> {
+            { DocumentType.Passport, "Паспорт" }, { DocumentType.Other, "Другое"}
+        };
+
         [HttpGet("Create")]
         public IActionResult Create()
         {
             var categories = _context.ClientCategories.ToList();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            
+            var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
+            select new { Id = (int)d, Name = DocTypesDesc[d] };
+            ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
             return View();
         }
 
@@ -86,7 +95,8 @@ namespace WebParking.Controllers
                     DateOfBirth = form.DateOfBirth,
                     Notes = form.Notes,
                     Document = form.Passport,
-                    DocumentType = DocumentType.Passport
+                    DocumentType = form.DocumentType,
+                    ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
                 };
 
                 _context.Clients.Add(tempClient);
@@ -122,6 +132,10 @@ namespace WebParking.Controllers
                 return NotFound("Не найден клиент с таким идентификатором!");
             }
 
+            var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
+                           select new { Id = (int)d, Name = DocTypesDesc[d] };
+            ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
+
             ClientEditViewModel clientEditViewModel = new ClientEditViewModel();
             clientEditViewModel.LastName = client.LastName;
             clientEditViewModel.FirstName = client.FirstName;
@@ -129,10 +143,13 @@ namespace WebParking.Controllers
 
             clientEditViewModel.Notes = client.Notes;
             clientEditViewModel.Passport = client.Document;
+
+ 
+            clientEditViewModel.DocumentType = client.DocumentType;
             clientEditViewModel.Telephone = client.Telephone;
             clientEditViewModel.DateOfBirth = client.DateOfBirth;
             clientEditViewModel.Id = client.Id;
-
+            clientEditViewModel.ResponsibleId = client.ResponsibleId;
             return View(clientEditViewModel);
         }
 
@@ -158,8 +175,9 @@ namespace WebParking.Controllers
                 client.Telephone = form.Telephone;
                 client.DateOfBirth = form.DateOfBirth;
                 client.Notes = form.Notes;
+                client.DocumentType = form.DocumentType;
                 client.Document = form.Passport;
-
+                client.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
                 _context.Clients.Update(client);
                 _context.SaveChanges();
             }

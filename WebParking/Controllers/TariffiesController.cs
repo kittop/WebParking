@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebParking.Data;
 using WebParking.Domain.Models;
@@ -16,6 +19,10 @@ namespace WebParking.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        public static Dictionary<AccrualType, string> AccrualTypesDesc = new Dictionary<AccrualType, string> {
+            { AccrualType.Hourly, "Почасовой" }, { AccrualType.Daily, "Посуточный"}
+        };
+
         public TariffiesController(ApplicationDbContext context)
         {
             _context = context;
@@ -24,14 +31,18 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var tariff = _context.Tariffies.ToList();
-
+            var tariff = _context.Tariffies.Include(x => x.Responsible).ToList();
+            
             return View(tariff);
         }
 
         [HttpGet("Create")]
         public IActionResult Create()
         {
+            var accTypes = from AccrualType d in Enum.GetValues(typeof(AccrualType))
+                           select new { Id = (int)d, Name = AccrualTypesDesc[d] };
+            ViewBag.AccrualTypes = new SelectList(accTypes, "Id", "Name");
+
             return View();
         }
 
@@ -49,14 +60,16 @@ namespace WebParking.Controllers
                 {
                     Name = form.Name,
                     Price = form.Price,
-                    Notes = form.Notes
+                    Notes = form.Notes,
+                    AccrualType = form.AccrualType,
+                    ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
                 };
 
                 _context.Tariffies.Add(tempTariff);
                 _context.SaveChanges();
 
             }
-            catch (Exception exception)
+            catch (Exception)
             {
             }
 
@@ -76,13 +89,17 @@ namespace WebParking.Controllers
             {
                 return NotFound("Не найден тариф с таким идентификатором!");
             }
+            var accTypes = from AccrualType d in Enum.GetValues(typeof(AccrualType))
+                           select new { Id = (int)d, Name = AccrualTypesDesc[d] };
+            ViewBag.AccrualTypes = new SelectList(accTypes, "Id", "Name");
 
             TariffEditViewModel tariffEditViewModel = new TariffEditViewModel();
             tariffEditViewModel.Name = tariff.Name;
             tariffEditViewModel.Price = tariff.Price;
             tariffEditViewModel.Notes = tariff.Notes;
+            tariffEditViewModel.AccrualType = tariff.AccrualType;
             tariffEditViewModel.Id = tariff.Id;
-
+            tariffEditViewModel.ResponsibleId = tariff.ResponsibleId;
             return View(tariffEditViewModel);
         }
 
@@ -105,11 +122,12 @@ namespace WebParking.Controllers
                 tariff.Name = form.Name;
                 tariff.Price = form.Price;
                 tariff.Notes = form.Notes;
-
+                tariff.AccrualType = form.AccrualType;
+                tariff.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
                 _context.Tariffies.Update(tariff);
                 _context.SaveChanges();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
             }
 
