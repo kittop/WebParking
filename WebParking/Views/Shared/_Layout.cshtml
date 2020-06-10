@@ -46,8 +46,8 @@
                                     <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Категории клиентов</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="CarCategories" asp-action="List">Категории транспортных средств</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="Tariffies" asp-action="List">Тарификация</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="ParkingPlace" asp-action="List">Парковочные места</a>
                                 }
-                                <a class="dropdown-item" asp-area="" asp-controller="ParkingPlace" asp-action="List">Парковочные места</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Clients" asp-action="List">Клиенты</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="List">Транспортные средства</a>
                             </div>
@@ -57,8 +57,7 @@
                                 Отчёты
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Отчёт 1</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="List">Отчёт 2</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="FreeParkingPlacesList">Свободные парковочные места</a>
                                 @if (User.IsInRole("admin"))
                                 {
                                     <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="List">Прибыль по клиенту</a>
@@ -66,7 +65,7 @@
                                 </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AutoCategories" asp-action="List">Аренда</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CheckInOut" asp-action="List">Аренда</a>
                         </li>
                     </ul>
                 </div>

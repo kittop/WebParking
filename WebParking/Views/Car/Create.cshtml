@@ -1,12 +1,17 @@
 ﻿@model WebParking.ViewModels.CarCreateViewModel
 
 @{
-    ViewData["Title"] = "Создание транспорта";
+    ViewData["Title"] = "Создание транспортного средства";
 }
 
 @using (Html.BeginForm("CreatePost", "Car"))
 {
-    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.ClientId, "Клиент")
+        @Html.DropDownListFor(model => model.ClientId, ViewBag.Clients as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(x => x.Mark, "Марка")
@@ -15,9 +20,15 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.SatetNumber, "Гос. номер")
-        @Html.TextBoxFor(model => model.SatetNumber, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.SatetNumber, "", new { @class = "text-danger" })
+        @Html.LabelFor(x => x.CategoryId, "Категория транспортного средства")
+        @Html.DropDownListFor(model => model.CategoryId, ViewBag.Categories as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.StateNumber, "Гос. номер")
+        @Html.TextBoxFor(model => model.StateNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.StateNumber, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">

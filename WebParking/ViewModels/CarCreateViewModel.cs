@@ -5,13 +5,18 @@ namespace WebParking.ViewModels
 {
     public class CarCreateViewModel
     {
+        [Required] public long Id { get; set; }
+
+        [Required(ErrorMessage = "Марка не указана!")]
+        public long ClientId { get; set; }
+
         [Required(ErrorMessage = "Марка не указана!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(15, ErrorMessage = "Максимальное количество символов не более 15!")]
         public string Mark { get; set; }
 
         [Required(ErrorMessage = "Госномер не указан!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не должно превышать 30!")]
-        public string SatetNumber { get; set; }
+        public string StateNumber { get; set; }
 
         [Required] public long CategoryId { get; set; }
 
@@ -21,7 +26,6 @@ namespace WebParking.ViewModels
 
         [Required(ErrorMessage = "Состояние автомобиля не указано!")]
         [MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
-
         public string Condition { get; set; }
 
         public string ResponsibleId { get; set; }

@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebParking.Data;
+using WebParking.Domain.Models;
 using WebParking.ViewModels;
 
 namespace WebParking.Controllers
 {
     [Controller]
     [Route("Check")]
-    [Authorize] // только авторизованные vse
+    [Authorize]
     public class CheckInOutController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,103 +23,178 @@ namespace WebParking.Controllers
             _context = context;
         }
 
-        //[HttpGet]
-        //public IActionResult List()
-        //{
-        //    var car = _context.Cars.ToList();
+        public static Dictionary<CheckType, string> CheckTypesDesc = new Dictionary<CheckType, string> {
+            { CheckType.CheckIn, "Открытие аренды" }, { CheckType.CheckOut, "Закрытие аренды"}
+        };
 
-        //    return View(car);
-        //}
+        [HttpGet]
+        public IActionResult List()
+        {
+            var checkInOut = _context.CheckInOuts.Include(x => x.Car).Include(x => x.Client).Include(x => x.Responsible).Include(x => x.Tariff).ToList();
+
+            return View(checkInOut);
+        }
 
         [HttpGet("Create")]
         public IActionResult Create()
         {
-            ViewBag.CheckTypes = new List<SelectListItem> {
-                new SelectListItem { Text = "Аренда", Value = "0" },
-                new SelectListItem { Text = "Закрытие аренды", Value = "1" }
-            };
+            var checkTypes = from CheckType d in Enum.GetValues(typeof(CheckType))
+                           select new { Id = (int)d, Name = CheckTypesDesc[d] };
+            ViewBag.CheckTypes = new SelectList(checkTypes, "Id", "Name");
+           
+            var Clients = _context.Clients.ToList();
+            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+
+            var Cars = _context.Cars.ToList();
+            ViewBag.Cars = new SelectList(Cars, "Id", "Mark");
+
+            var Tariffies = _context.Tariffies.ToList();
+            ViewBag.Tariffies = new SelectList(Tariffies, "Id", "Name");
+
+            var ParkingPlaces = _context.ParkingPlaces.ToList();
+            ViewBag.ParkingPlaces = new SelectList(ParkingPlaces, "Id", "Name");
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreatePost(CarCreateViewModel form)
+        public IActionResult CreatePost(CheckInOutCreateViewModel form)
         {
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
             }
 
-            return Ok(form);
+            try
+            {
+                var CheckList = new CheckInOut
+                {
+                    CheckType = form.CheckType,
+                    ClientId = form.ClientId,
+                    CarId = form.CarId,
+                    DateCheckIn = form.DateCheckIn,
+                    DateCheckOut = form.DateCheckOut,
+                    ParkingPlaceId = form.ParkingPlaceId,
+                    TariffId = form.TariffId,
+                    Sum = form.Sum,
+                    TotalHours = form.TotalHours,
+                    Notes = form.Notes,
+                    ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
+                };
+
+                _context.CheckInOuts.Add(CheckList);
+                _context.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("Create", form);
+            }
+
+            return RedirectToAction(nameof(List));
         }
 
-        //[HttpGet("Edit/{id}")]
-        //public IActionResult Edit([FromRoute] long id)
-        //{
-        //    var car = _context.Cars.FirstOrDefault(x => x.Id == id);
-        //    if (car == null)
-        //    {
-        //        return NotFound("Не найден автомобиль с таким идентификатором!");
-        //    }
+        [HttpGet("Edit/{id}")]
+        public IActionResult Edit([FromRoute] long id)
+        {
+            var CheckList = _context.CheckInOuts.FirstOrDefault(x => x.Id == id);
+            if (CheckList == null)
+            {
+                return NotFound("Не найдено зарегистрированное событие!");
+            }
 
-        //    CarEditViewModel carEditViewModel = new CarEditViewModel();
-        //    carEditViewModel.Mark = car.Mark;
-        //    carEditViewModel.SatetNumber = car.StatetNumber;
-        //    carEditViewModel.Color = car.Color;
-        //    carEditViewModel.Condition = car.Condition;
-        //    carEditViewModel.Notes = car.Notes;
-        //    carEditViewModel.Id = car.Id;
+            var checkTypes = from CheckType d in Enum.GetValues(typeof(CheckType))
+                             select new { Id = (int)d, Name = CheckTypesDesc[d] };
+            ViewBag.CheckTypes = new SelectList(checkTypes, "Id", "Name");
 
-        //    return View(carEditViewModel);
-        //}
+            var Clients = _context.Clients.ToList();
+            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
 
-        //[HttpPost("Edit")]
-        //public IActionResult EditPost(CarEditViewModel form)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View("Edit", form);
-        //    }
+            var Cars = _context.Cars.ToList();
+            ViewBag.Cars = new SelectList(Cars, "Id", "Mark");
 
-        //    var car = _context.Cars.FirstOrDefault(x => x.Id == form.Id);
-        //    if (car == null)
-        //    {
-        //        return NotFound("Не найден автомобиль с таким идентификатором!");
-        //    }
+            var Tariffies = _context.Tariffies.ToList();
+            ViewBag.Tariffies = new SelectList(Tariffies, "Id", "Name");
 
-        //    try
-        //    {
-        //        car.Mark = form.Mark;
-        //        car.StatetNumber = form.SatetNumber;
-        //        car.Color = form.Color;
-        //        car.Condition = form.Condition;
-        //        car.Notes = form.Notes;
-        //        car.Notes = form.Notes;
+            var ParkingPlaces = _context.ParkingPlaces.ToList();
+            ViewBag.ParkingPlaces = new SelectList(ParkingPlaces, "Id", "Name");
 
-        //        _context.Cars.Update(car);
-        //        _context.SaveChanges();
-        //    }
-        //    catch (Exception exception)
-        //    {
 
-        //    }
+            CheckInOutEditViewModel CheckEditViewModel = new CheckInOutEditViewModel
+            {
+                CheckType = CheckList.CheckType,
+                ClientId = CheckList.ClientId,
+                CarId = CheckList.CarId,
+                DateCheckIn = CheckList.DateCheckIn,
+                DateCheckOut = CheckList.DateCheckOut,
+                ParkingPlaceId = CheckList.ParkingPlaceId,
+                TariffId = CheckList.TariffId,
+                Sum = CheckList.Sum,
+                TotalHours = CheckList.TotalHours,
+                Notes = CheckList.Notes,
+                ResponsibleId = CheckList.ResponsibleId
+            };
 
-        //    return RedirectToAction(nameof(List));
-        //}
+            return View(CheckEditViewModel);
+        }
 
-        //[HttpPost("Delete")]
-        //public IActionResult Delete(long Id)
-        //{
-        //    var car = _context.Cars.FirstOrDefault(x => x.Id == Id);
-        //    if (car == null)
-        //    {
-        //        return NotFound("Не найден автомобиль с таким идентификатором!");
-        //    }
+        [HttpPost("Edit")]
+        public IActionResult EditPost(CheckInOutEditViewModel form)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", form);
+            }
 
-        //    _context.Cars.Remove(car);
-        //    _context.SaveChanges();
+            var CheckList = _context.CheckInOuts.FirstOrDefault(x => x.Id == form.Id);
+            if (CheckList == null)
+            {
+                return NotFound("Не найдено зарегистрированное событие!");
+            }
 
-        //    return NoContent();
-        //}
+            try
+            {
+                CheckList.CheckType = form.CheckType;
+                CheckList.ClientId = CheckList.ClientId;
+                CheckList.CarId = CheckList.CarId;
+                CheckList.DateCheckIn = CheckList.DateCheckIn;
+                CheckList.DateCheckOut = CheckList.DateCheckOut;
+                CheckList.ParkingPlaceId = CheckList.ParkingPlaceId;
+                CheckList.TariffId = CheckList.TariffId;
+                CheckList.Sum = CheckList.Sum;
+                CheckList.TotalHours = CheckList.TotalHours;
+                CheckList.Notes = CheckList.Notes;
+                CheckList.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+
+                _context.CheckInOuts.Update(CheckList);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return RedirectToAction(nameof(List));
+        }
+
+        [HttpPost("Delete")]
+        public IActionResult Delete(long Id)
+        {
+            var CheckList = _context.CheckInOuts.FirstOrDefault(x => x.Id == Id);
+            if (CheckList == null)
+            {
+                return NotFound("Не найдено зарегистрированное событие!");
+            }
+
+            _context.CheckInOuts.Remove(CheckList);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

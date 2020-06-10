@@ -6,7 +6,6 @@
 
 @using (Html.BeginForm("CreatePost", "Clients"))
 {
-    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(x => x.LastName, "Фамилия")
         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })

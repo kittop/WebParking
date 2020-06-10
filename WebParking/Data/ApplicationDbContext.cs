@@ -38,7 +38,7 @@ namespace WebParking.Data
                 x.Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                x.HasIndex(b => b.StatetNumber)
+                x.HasIndex(b => b.StateNumber)
                 .IsUnique();
             });
 

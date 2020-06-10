@@ -27,6 +27,7 @@ namespace WebParking.Domain.Models
         [Required] public WebParkingUser Responsible { get; set; }
 
         [Required] public string ResponsibleId { get; set; }
+
     }
     public enum AccrualType { Hourly, Daily };  //вид начисления
 

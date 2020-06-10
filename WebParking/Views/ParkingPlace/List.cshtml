@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-12">
         <a type="button" class="btn btn-primary float-right mb-3" href="/ParkingPlace/Create">Создать новое парковочное место</a>
-        <a type="button" class="btn btn-primary float-right mb-3 mr-2" href="/ParkingPlace/Create">Заполнить</a>
+        <a type="button" class="btn btn-primary float-right mb-3 mr-2" href="/ParkingPlace/Fill">Заполнить автоматически</a>
     </div>
 </div>
 <div class="row">
@@ -32,7 +32,14 @@
                 {
                 <tr>
                     <td>@elem.Name</td>
-                    <td>@elem.Free</td>
+                    @if (elem.Free)
+                    {
+                        <td>Да</td>
+                    }
+                    else
+                    {
+                        <td>Нет</td>
+                    }
                     <td>@elem.Notes</td>
                     <td>@elem.Responsible.FullName</td>
                     <td>@elem.Creation</td>

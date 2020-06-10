@@ -1,10 +1,10 @@
-﻿@model WebParking.ViewModels.CheckInOutCreateViewModel
+﻿@model WebParking.ViewModels.CheckInOutEditViewModel
 
 @{
-    ViewData["Title"] = "Регистрация события";
+    ViewData["Title"] = "Изменение зарегистрированное события";
 }
 
-@using (Html.BeginForm("CreatePost", "Clients"))
+@using (Html.BeginForm("EditPost", "Car"))
 {
     <div class="form-group">
         @Html.LabelFor(x => x.CheckType, "Событие")
@@ -60,8 +60,8 @@
     </div>
 
     <input type="submit" value="Сохранить" class="btn btn-primary" />
-}
 
+}
 
 @section Scripts {
     <script>

@@ -1,18 +1,28 @@
 ﻿@model WebParking.ViewModels.CarEditViewModel
 
 @{
-    ViewData["Title"] = "Редактирование автомобиля";
+    ViewData["Title"] = "Изменение транспортного средства";
 }
 
-
-@using (Html.BeginForm("EditPost", "Auto"))
+@using (Html.BeginForm("EditPost", "Car"))
 {
-    //@Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <input asp-for="Id" hidden />
+    <div class="form-group">
+        @Html.LabelFor(x => x.ClientId, "Клиент")
+        @Html.DropDownListFor(model => model.ClientId, ViewBag.Clients as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(x => x.Mark, "Марка")
         @Html.TextBoxFor(model => model.Mark, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.CategoryId, "Категория транспортного средства")
+        @Html.DropDownListFor(model => model.CategoryId, ViewBag.Categories as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">

@@ -1,0 +1,46 @@
+﻿@model List<WebParking.Domain.Models.ParkingPlace>
+
+@{
+    ViewData["Title"] = "Отчёты - Свободные парковочные места";
+}
+
+@section Styles {
+    <link id="datatable-lang" href="~/lib/datatables/Russian.json" />
+}
+
+<div class="row">
+    <div class="col-12">
+        <table id="myTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Свободно</th>
+                    <th>Примечания</th>
+                    <th>Ответственный</th>
+                    <th>Создан</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var elem in Model)
+                {
+                <tr>
+                    <td>@elem.Name</td>
+                    @if (elem.Free)
+                    {
+                        <td>Да</td>
+                    }
+                    else
+                    {
+                        <td>Нет</td>
+                    }
+                    <td>@elem.Notes</td>
+                    <td>@elem.Responsible.FullName</td>
+                    <td>@elem.Creation</td>
+                </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>

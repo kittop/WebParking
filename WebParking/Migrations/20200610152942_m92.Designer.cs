@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebParking.Data;
@@ -9,9 +10,10 @@ using WebParking.Data;
 namespace WebParking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200610152942_m92")]
+    partial class m92
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,8 +304,6 @@ namespace WebParking.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("ParkingPlaceId");
-
-                    b.HasIndex("ResponsibleId");
 
                     b.HasIndex("TariffId");
 
@@ -656,12 +656,6 @@ namespace WebParking.Migrations
                     b.HasOne("WebParking.Domain.Models.ParkingPlace", "ParkingPlace")
                         .WithMany()
                         .HasForeignKey("ParkingPlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebParking.Domain.Models.WebParkingUser", "Responsible")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

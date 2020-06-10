@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using WebParking.Areas.Identity.Data;
 using WebParking.Domain.Models;
+using WebParking.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebParking.Views.Users
 {
@@ -11,6 +13,7 @@ namespace WebParking.Views.Users
     {
         private readonly UserManager<WebParkingUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
         public class UserListItemViewModel
         {
@@ -24,23 +27,34 @@ namespace WebParking.Views.Users
 
         public IList<UserListItemViewModel> UserList { get; set; }
 
-        public UsersPageModel(UserManager<WebParkingUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersPageModel(UserManager<WebParkingUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public void OnGet()
         {
-            UserList = _userManager.Users.Select(x => new UserListItemViewModel
+            UserList = _userManager.Users.Select(x => new
             {
                 Id = x.Id,
                 Email = x.Email,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 MiddleName = x.MiddleName,
-                IsAdmin = _userManager.IsInRoleAsync(x, Roles.AdminRole).Result
+                User = x
+            }).ToList()
+            .Select(x => new UserListItemViewModel
+            {
+                Id = x.Id,
+                Email = x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                MiddleName = x.MiddleName,
+                IsAdmin = _userManager.IsInRoleAsync(x.User, Roles.AdminRole).Result
             }).ToList();
+
         }
     }
 }

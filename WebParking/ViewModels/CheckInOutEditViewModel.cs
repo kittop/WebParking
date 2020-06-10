@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using WebParking.Domain.Models;
 
-namespace WebParking.Domain.Models
+namespace WebParking.ViewModels
 {
-    public class CheckInOut
+    public class CheckInOutEditViewModel
     {
         public long Id { get; set; }
 
@@ -16,28 +17,16 @@ namespace WebParking.Domain.Models
         public long ClientId { get; set; }
 
         [Required]
-        public Client Client { get; set; }
-
-        [Required]
         public long CarId { get; set; }
 
         [Required]
-        public Car Car { get; set; }
-
-        [Required]
         public long ParkingPlaceId { get; set; }
-
-        [Required]
-        public ParkingPlace ParkingPlace { get; set; }
 
         [Required]
         public DateTime DateCheckOut { get; set; }
 
         [Required]
         public long TariffId { get; set; }
-
-        [Required]
-        public Tariff Tariff { get; set; }
 
         public double TotalHours { get; set; }
 
@@ -48,10 +37,6 @@ namespace WebParking.Domain.Models
 
         [Required] public DateTime Creation { get; set; }
 
-        [Required] public WebParkingUser Responsible { get; set; }
-
-        [Required] public string ResponsibleId { get; set; }
-
+        public string ResponsibleId { get; set; }
     }
-    public enum CheckType { CheckIn, CheckOut };
 }

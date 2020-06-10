@@ -11,6 +11,9 @@ namespace WebParking.Domain.Models
         public Client Client { get; set; }
 
         [Required]
+        public long ClientId { get; set; }
+
+        [Required]
         [MinLength(2), MaxLength(30)]
         public string Mark { get; set; }
 
@@ -18,8 +21,11 @@ namespace WebParking.Domain.Models
         public CarCategory Category { get; set; }
 
         [Required]
+        public long CategoryId { get; set; }
+
+        [Required]
         [MinLength(2), MaxLength(30)]
-        public string StatetNumber { get; set; }
+        public string StateNumber { get; set; }
 
         [Required]
         [MinLength(2), MaxLength(30)]
@@ -39,6 +45,8 @@ namespace WebParking.Domain.Models
 
         [Required]
         public DateTime Creation { get; set; }
+
+        public string FullName => $"{Mark} {StateNumber} {Color}";
 
     }
 }

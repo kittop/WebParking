@@ -121,6 +121,57 @@ namespace WebParking.Controllers
             return RedirectToAction(nameof(List));
         }
 
+        [HttpGet("Fill")]
+        public IActionResult Fill()
+        {
+            return View();
+        }
+
+        [HttpPost("FillPost")]
+        public IActionResult FillPost(ParkingPlaceFillViewModel form)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Fill", form);
+            }
+
+            try
+            {
+                var Count = form.Count;
+                var Start = (int)form.Start;
+
+
+
+                for (int i = Start; i < Count + 1; i++)
+                {
+                    ParkingPlace parkingPlace = new ParkingPlace
+                    {
+                        Creation = DateTime.Now,
+                        Free = true,
+                        ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value,
+                        Notes = "Сгенерировано автоматически",
+                        Name = i.ToString(),
+                    };
+                    _context.ParkingPlaces.Add(parkingPlace);
+                };
+                
+
+               _context.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("Fill", form);
+            }
+
+            return RedirectToAction(nameof(List));
+        }
+
         [HttpPost("Delete")]
         public IActionResult Delete(long Id)
         {
