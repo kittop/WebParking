@@ -4,11 +4,11 @@
     ViewData["Title"] = "Регистрация события";
 }
 
-@using (Html.BeginForm("CreatePost", "Clients"))
+@using (Html.BeginForm("CreatePost", "CheckInOut"))
 {
     <div class="form-group">
         @Html.LabelFor(x => x.CheckType, "Событие")
-        @Html.DropDownListFor(model => model.CheckType, ViewBag.CheckTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.DropDownListFor(model => model.CheckType, ViewBag.CheckTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true, @disabled = "false" })
         @Html.ValidationMessageFor(model => model.CheckType, "", new { @class = "text-danger" })
     </div>
 
@@ -25,9 +25,16 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.DateCheckOut, "Дата выезда")
-        @Html.TextBoxFor(model => model.DateCheckOut, "yyyy-MM-dd",
-        new { @type = "date", @class = "form-control", @placeholder = "Укажите дату выезда!", min = DateTime.Now })
+        @Html.LabelFor(x => x.DateCheckOut, "Дата заезда")
+        @Html.TextBoxFor(model => model.DateCheckIn,
+        new { @type = "datetime-local", @class = "form-control", @placeholder = "Укажите дату заезда!", min = DateTime.Now })
+        @Html.ValidationMessageFor(model => model.DateCheckIn, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.DateCheckOut, "Предполагаемая дата выезда")
+        @Html.TextBoxFor(model => model.DateCheckOut,
+        new { @type = "datetime-local", @class = "form-control", @placeholder = "Укажите предполагаемую дату выезда!"})
         @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
     </div>
 
@@ -74,7 +81,7 @@
 
                 const clientSelect = $('#ClientId');
 
-                const options = data.map(el => $('<option />', { value: el.id, text: `${el.lastName} ${el.firstName} ${el.middleName}, ${el.telephone}` }));
+                const options = data.map(el => $('<option />', { value: el.id, text: `${el.lastName} ${el.firstName} ${el.middleName}` }));
 
                 clientSelect.append(options);
                 clientSelect.selectpicker({ liveSearch: true });

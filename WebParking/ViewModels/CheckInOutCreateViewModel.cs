@@ -22,8 +22,8 @@ namespace WebParking.ViewModels
         [Required]
         public long ParkingPlaceId { get; set; }
 
-        [Required]
-        public DateTime DateCheckOut { get; set; }
+
+        public DateTime? DateCheckOut { get; set; }
 
         [Required]
         public long TariffId { get; set; }

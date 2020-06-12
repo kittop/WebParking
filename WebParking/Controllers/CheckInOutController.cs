@@ -23,6 +23,8 @@ namespace WebParking.Controllers
             _context = context;
         }
 
+
+
         public static Dictionary<CheckType, string> CheckTypesDesc = new Dictionary<CheckType, string> {
             { CheckType.CheckIn, "Открытие аренды" }, { CheckType.CheckOut, "Закрытие аренды"}
         };
@@ -30,7 +32,12 @@ namespace WebParking.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var checkInOut = _context.CheckInOuts.Include(x => x.Car).Include(x => x.Client).Include(x => x.Responsible).Include(x => x.Tariff).ToList();
+            var checkInOut = _context.CheckInOuts
+                .Include(x => x.Car)
+                .Include(x => x.ParkingPlace)
+                .Include(x => x.Client)
+                .Include(x => x.Responsible)
+                .Include(x => x.Tariff).ToList();
 
             return View(checkInOut);
         }
@@ -38,10 +45,17 @@ namespace WebParking.Controllers
         [HttpGet("Create")]
         public IActionResult Create()
         {
+            FillViewBag();
+
+            return View();
+        }
+
+        private void FillViewBag()
+        {
             var checkTypes = from CheckType d in Enum.GetValues(typeof(CheckType))
-                           select new { Id = (int)d, Name = CheckTypesDesc[d] };
+                             select new { Id = (int)d, Name = CheckTypesDesc[d] };
             ViewBag.CheckTypes = new SelectList(checkTypes, "Id", "Name");
-           
+
             var Clients = _context.Clients.ToList();
             ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
 
@@ -53,13 +67,13 @@ namespace WebParking.Controllers
 
             var ParkingPlaces = _context.ParkingPlaces.ToList();
             ViewBag.ParkingPlaces = new SelectList(ParkingPlaces, "Id", "Name");
-
-            return View();
         }
 
         [HttpPost]
         public IActionResult CreatePost(CheckInOutCreateViewModel form)
         {
+            FillViewBag();
+
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
@@ -73,7 +87,7 @@ namespace WebParking.Controllers
                     ClientId = form.ClientId,
                     CarId = form.CarId,
                     DateCheckIn = form.DateCheckIn,
-                    DateCheckOut = form.DateCheckOut,
+                    DateCheckOut = form.DateCheckOut.GetValueOrDefault(),
                     ParkingPlaceId = form.ParkingPlaceId,
                     TariffId = form.TariffId,
                     Sum = form.Sum,
@@ -108,22 +122,7 @@ namespace WebParking.Controllers
                 return NotFound("Не найдено зарегистрированное событие!");
             }
 
-            var checkTypes = from CheckType d in Enum.GetValues(typeof(CheckType))
-                             select new { Id = (int)d, Name = CheckTypesDesc[d] };
-            ViewBag.CheckTypes = new SelectList(checkTypes, "Id", "Name");
-
-            var Clients = _context.Clients.ToList();
-            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
-
-            var Cars = _context.Cars.ToList();
-            ViewBag.Cars = new SelectList(Cars, "Id", "Mark");
-
-            var Tariffies = _context.Tariffies.ToList();
-            ViewBag.Tariffies = new SelectList(Tariffies, "Id", "Name");
-
-            var ParkingPlaces = _context.ParkingPlaces.ToList();
-            ViewBag.ParkingPlaces = new SelectList(ParkingPlaces, "Id", "Name");
-
+            FillViewBag();
 
             CheckInOutEditViewModel CheckEditViewModel = new CheckInOutEditViewModel
             {
@@ -146,6 +145,8 @@ namespace WebParking.Controllers
         [HttpPost("Edit")]
         public IActionResult EditPost(CheckInOutEditViewModel form)
         {
+            FillViewBag();
+
             if (!ModelState.IsValid)
             {
                 return View("Edit", form);
@@ -160,15 +161,15 @@ namespace WebParking.Controllers
             try
             {
                 CheckList.CheckType = form.CheckType;
-                CheckList.ClientId = CheckList.ClientId;
-                CheckList.CarId = CheckList.CarId;
-                CheckList.DateCheckIn = CheckList.DateCheckIn;
-                CheckList.DateCheckOut = CheckList.DateCheckOut;
-                CheckList.ParkingPlaceId = CheckList.ParkingPlaceId;
-                CheckList.TariffId = CheckList.TariffId;
-                CheckList.Sum = CheckList.Sum;
-                CheckList.TotalHours = CheckList.TotalHours;
-                CheckList.Notes = CheckList.Notes;
+                CheckList.ClientId = form.ClientId;
+                CheckList.CarId = form.CarId;
+                CheckList.DateCheckIn = form.DateCheckIn;
+                CheckList.DateCheckOut = form.DateCheckOut;
+                CheckList.ParkingPlaceId = form.ParkingPlaceId;
+                CheckList.TariffId = form.TariffId;
+                CheckList.Sum = form.Sum;
+                CheckList.TotalHours = form.TotalHours;
+                CheckList.Notes = form.Notes;
                 CheckList.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
 
                 _context.CheckInOuts.Update(CheckList);
