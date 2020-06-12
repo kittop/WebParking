@@ -118,7 +118,7 @@ namespace WebParking.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
-            return RedirectToPage("");
+            return RedirectToPage("Identity", "Users", "List");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace WebParking
     {
         private const string defaultAdminEmail = "admin@web.parking";
         private const string defaultAdminUserName = "admin@web.parking";
-        private const string defaultAdminPassword = "admin123";
+        private const string defaultAdminPassword = "P@ssw0rd";
 
 
         public Startup(IConfiguration configuration)

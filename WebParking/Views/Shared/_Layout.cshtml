@@ -22,7 +22,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    @if (User.IsInRole("admin"))
+                    @if (User.IsInRole(WebParking.Areas.Identity.Data.Roles.AdminRole))
                     {
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
@@ -30,7 +30,7 @@
                                 Администрирование
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-area="" asp-page="/Users/List">Пользователи</a>
+                                <a class="dropdown-item" asp-area="Identity" asp-page="/Users/List">Пользователи</a>
                             </div>
                         </li>
                     </ul>
@@ -41,7 +41,7 @@
                                 Справочники
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                @if (User.IsInRole("admin"))
+                                @if (User.IsInRole(WebParking.Areas.Identity.Data.Roles.AdminRole))
                                 {
                                     <a class="dropdown-item" asp-area="" asp-controller="ClientCategories" asp-action="List">Категории клиентов</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="CarCategories" asp-action="List">Категории транспортных средств</a>
@@ -58,7 +58,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="FreeParkingPlacesList">Свободные парковочные места</a>
-                                @if (User.IsInRole("admin"))
+                                @if (User.IsInRole(WebParking.Areas.Identity.Data.Roles.AdminRole))
                                 {
                                     <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="List">Прибыль по клиенту</a>
                                 }

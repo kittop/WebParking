@@ -7,7 +7,7 @@ using WebParking.Domain.Models;
 using WebParking.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebParking.Views.Users
+namespace WebParking.Areas.Identity.Pages.Users
 {
     public class UsersPageModel : PageModel
     {
@@ -38,11 +38,11 @@ namespace WebParking.Views.Users
         {
             UserList = _userManager.Users.Select(x => new
             {
-                Id = x.Id,
-                Email = x.Email,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                MiddleName = x.MiddleName,
+                x.Id,
+                x.Email,
+                x.FirstName,
+                x.LastName,
+                x.MiddleName,
                 User = x
             }).ToList()
             .Select(x => new UserListItemViewModel
