@@ -4,38 +4,37 @@
     ViewData["Title"] = "Изменение зарегистрированное события";
 }
 
-@using (Html.BeginForm("EditPost", "Car"))
+@using (Html.BeginForm("EditPost", "CheckInOut"))
 {
+    <input asp-for="Id" hidden />
+
     <div class="form-group">
         @Html.LabelFor(x => x.CheckType, "Событие")
-        @Html.DropDownListFor(model => model.CheckType, ViewBag.CheckTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.DropDownListFor(model => model.CheckType, ViewBag.CheckTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true, @disabled = "false" })
         @Html.ValidationMessageFor(model => model.CheckType, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         @Html.LabelFor(x => x.ClientId, "Клиент")
-        @Html.DropDownListFor(model => model.ClientId, ViewBag.Clients as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.DropDownListFor(model => model.ClientId, ViewBag.Clients as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true, @disabled = "false" })
         @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         @Html.LabelFor(x => x.CarId, "Транспортное средство")
-        @Html.DropDownListFor(model => model.CarId, ViewBag.Cars as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.DropDownListFor(model => model.CarId, ViewBag.Cars as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true, @disabled = "false" })
         @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.DateCheckOut, "Дата заезда")
-        @Html.TextBoxFor(model => model.DateCheckOut, "yyyy-MM-dd hh:mm:ss",
-        new { @type = "date", @class = "form-control", @placeholder = "Укажите дату выезда!", min = DateTime.Now })
-        @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
+        @Html.LabelFor(x => x.DateCheckIn, "Дата заезда")
+        <input type="datetime-local" asp-for="DateCheckIn" class="form-control">
+        @Html.ValidationMessageFor(model => model.DateCheckIn, "", new { @class = "text-danger" })
     </div>
-
 
     <div class="form-group">
         @Html.LabelFor(x => x.DateCheckOut, "Дата выезда")
-        @Html.TextBoxFor(model => model.DateCheckOut, "yyyy-MM-dd hh:mm:ss",
-        new { @type = "date", @class = "form-control", @placeholder = "Укажите дату выезда!", min = DateTime.Now })
+        <input type="datetime-local" asp-for="DateCheckOut" class="form-control">
         @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
     </div>
 
@@ -52,64 +51,10 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.TotalHours, "Время на стоянке")
-        <input type="number" id="TotalHours" class="form-group form-control" name="TotalHours" disabled="disabled">
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.Sum, "Стоимость")
-        <input type="number" id="Sum" class="form-group form-control" name="Sum" disabled="disabled">
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(x => x.Notes, "Примечания")
         @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
     </div>
 
     <input type="submit" value="Сохранить" class="btn btn-primary" />
-
-}
-
-@section Scripts {
-    <script>
-        const USERS_URL = '@Url.Action("GetAllJson", "Clients")';
-        const CARS_URL = '@Url.Action("GetCars", "Clients")';
-
-        $(document).ready(function () {
-
-            $.get(USERS_URL, function (data) {
-
-                const clientSelect = $('#ClientId');
-
-                const options = data.map(el => $('<option />', { value: el.id, text: `${el.lastName} ${el.firstName} ${el.middleName}, ${el.telephone}` }));
-
-                clientSelect.append(options);
-                clientSelect.selectpicker({ liveSearch: true });
-                clientSelect.selectpicker('val', null);
-            });
-
-            $('#ClientId').change(function () {
-                //console.log(this);
-                const val = $(this).val()
-                console.log(val);
-                const finalUrl = CARS_URL + '?id=' + val;
-
-                $.get(finalUrl, function (data) {
-
-                    const carSelect = $('#CarId');
-                    carSelect.empty(); //очистка поля
-
-                    const options = data.map(el => $('<option />', { value: el.id, text: `${el.mark}, ${el.stateNumber}  `}));
-
-                    carSelect.append(options);
-                    //carSelect.selectpicker({ liveSearch: true });
-                    carSelect.selectpicker('refresh');
-                    carSelect.selectpicker('refresh');
-                });
-            });
-
-        });
-
-    </script>
 }

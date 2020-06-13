@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebParking.Domain.Models
@@ -48,5 +49,6 @@ namespace WebParking.Domain.Models
 
         public string FullName => $"{Mark} {StateNumber} {Color}";
 
+        public IList<CheckInOut> CheckInOuts { get; set; }
     }
 }

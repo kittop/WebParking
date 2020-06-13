@@ -48,15 +48,22 @@ namespace WebParking.Controllers
         public IActionResult GetCars(long id)
         {
 
-            var result = _context.Clients.Include(x => x.Cars).Select(x => new { Cars = x.Cars.Select(y => new { y.Id, y.Mark, y.Condition }), x.Id })
+            var client = _context.Clients
+                .Include(x => x.Cars)
+                .ThenInclude(x => x.CheckInOuts)
                 .FirstOrDefault(x => x.Id == id);
 
-            if (result == null)
+            if (client == null)
             {
                 return NotFound(nameof(Client));
             }
 
-            return Ok(result.Cars);
+            var result = client.Cars
+                  .Where(x => x.CheckInOuts.All(y => y.CheckType != CheckType.CheckIn))
+                  .Select(y => new { y.Id, y.Mark, y.Condition, y.StateNumber, y.Color });
+
+
+            return Ok(result);
         }
 
         public static Dictionary<DocumentType, string> DocTypesDesc = new Dictionary<DocumentType, string> {
@@ -68,9 +75,9 @@ namespace WebParking.Controllers
         {
             var categories = _context.ClientCategories.ToList();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
-            
+
             var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
-            select new { Id = (int)d, Name = DocTypesDesc[d] };
+                           select new { Id = (int)d, Name = DocTypesDesc[d] };
             ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
             return View();
         }
@@ -144,7 +151,7 @@ namespace WebParking.Controllers
             clientEditViewModel.Notes = client.Notes;
             clientEditViewModel.Passport = client.Document;
 
- 
+
             clientEditViewModel.DocumentType = client.DocumentType;
             clientEditViewModel.Telephone = client.Telephone;
             clientEditViewModel.DateOfBirth = client.DateOfBirth;

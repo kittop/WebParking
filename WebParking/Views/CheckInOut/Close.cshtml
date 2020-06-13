@@ -1,0 +1,110 @@
+﻿@model WebParking.ViewModels.CheckInOutCloseViewModel
+
+@{
+    ViewData["Title"] = "Закрытие аренды";
+}
+
+@using (Html.BeginForm("ClosePost", "CheckInOut"))
+{
+    <input asp-for="Id" hidden />
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.CheckType, "Событие")
+        @Html.DropDownListFor(model => model.CheckType, ViewBag.CheckTypes as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @disabled = true })
+        @Html.ValidationMessageFor(model => model.CheckType, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.ClientId, "Клиент")
+        @Html.DropDownListFor(model => model.ClientId, ViewBag.Clients as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @disabled = true })
+        @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.CarId, "Транспортное средство")
+        @Html.DropDownListFor(model => model.CarId, ViewBag.Cars as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @disabled = true })
+        @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.DateCheckIn, "Дата заезда")
+        <input type="datetime-local" asp-for="DateCheckIn" class="form-control">
+        @Html.ValidationMessageFor(model => model.DateCheckIn, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.DateCheckOut, "Дата выезда")
+        <input type="datetime-local" asp-for="DateCheckOut" class="form-control">
+        @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.TariffId, "Тариф")
+        @Html.DropDownListFor(model => model.TariffId, ViewBag.Tariffies as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @disabled = true })
+        @Html.ValidationMessageFor(model => model.TariffId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.ParkingPlaceId, "Парковочное место")
+        @Html.DropDownListFor(model => model.ParkingPlaceId, ViewBag.ParkingPlaces as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @disabled = true })
+        @Html.ValidationMessageFor(model => model.ParkingPlaceId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.TotalHours, "Время на стоянке")
+        <input type="number" id="TotalHours" class="form-group form-control" name="TotalHours" disabled="disabled">
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Sum, "Стоимость")
+        <input type="number" id="Sum" class="form-group form-control" name="Sum" disabled="disabled">
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Notes, "Примечания")
+        @Html.TextBoxFor(model => model.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+    </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+}
+
+
+@section Scripts {
+    <script>
+        const Tariffes_URL = '@Url.Action("GetTypeTariffJSON", "Check")';
+
+        function fff() {
+            const DateCheckOut = new Date($('#DateCheckOut').val());
+            const DateCheckIn = new Date($('#DateCheckIn').val());
+            const Difference = Math.abs(DateCheckOut - DateCheckIn) / 36e5;
+            const TypeTariff = $('#TariffId').val();
+            const TotalHours = $('#TotalHours');
+            const Sum = $('#Sum');
+
+            console.log('diff', Difference);
+            console.log('in', DateCheckIn, typeof (DateCheckIn));
+            console.log('out', DateCheckOut, typeof (DateCheckOut));
+
+            $.get(`${Tariffes_URL}?id=${TypeTariff}`, function (data) {
+                if (data.accrualType == 0) {//почасовой
+
+                    TotalHours.val(Difference.toFixed(2));
+                    Sum.val((data.price * Difference).toFixed(2));
+                }
+                else if (data.accrualType == 1) {
+
+                    TotalHours.val((Difference / 24).toFixed(2));
+                    Sum.val((data.price * Difference / 24).toFixed(2));
+
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            fff();
+            $('#DateCheckOut').change(fff);
+        });
+
+    </script>
+}

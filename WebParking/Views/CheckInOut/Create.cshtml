@@ -20,21 +20,19 @@
 
     <div class="form-group">
         @Html.LabelFor(x => x.CarId, "Транспортное средство")
-        @Html.DropDownListFor(model => model.CarId, ViewBag.Cars as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
+        @Html.DropDownListFor(model => model.CarId, new List<SelectListItem> { }, new { @class = "selectpicker form-control", @data_live_search = true })
         @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.DateCheckOut, "Дата заезда")
-        @Html.TextBoxFor(model => model.DateCheckIn,
-        new { @type = "datetime-local", @class = "form-control", @placeholder = "Укажите дату заезда!", min = DateTime.Now })
+        @Html.LabelFor(x => x.DateCheckIn, "Дата заезда")
+        <input type="datetime-local" asp-for="DateCheckIn" class="form-control">
         @Html.ValidationMessageFor(model => model.DateCheckIn, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         @Html.LabelFor(x => x.DateCheckOut, "Предполагаемая дата выезда")
-        @Html.TextBoxFor(model => model.DateCheckOut,
-        new { @type = "datetime-local", @class = "form-control", @placeholder = "Укажите предполагаемую дату выезда!"})
+        <input type="datetime-local" asp-for="DateCheckOut" class="form-control">
         @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
     </div>
 
@@ -48,16 +46,6 @@
         @Html.LabelFor(x => x.ParkingPlaceId, "Парковочное место")
         @Html.DropDownListFor(model => model.ParkingPlaceId, ViewBag.ParkingPlaces as IEnumerable<SelectListItem>, new { @class = "selectpicker form-control", @data_live_search = true })
         @Html.ValidationMessageFor(model => model.ParkingPlaceId, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.TotalHours, "Время на стоянке")
-        <input type="number" id="TotalHours" class="form-group form-control" name="TotalHours" disabled="disabled">
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(x => x.Sum, "Стоимость")
-        <input type="number" id="Sum" class="form-group form-control" name="Sum" disabled="disabled">
     </div>
 
     <div class="form-group">
@@ -99,7 +87,7 @@
                     const carSelect = $('#CarId');
                     carSelect.empty(); //очистка поля
 
-                    const options = data.map(el => $('<option />', { value: el.id, text: `${el.mark}, ${el.stateNumber}  `}));
+                    const options = data.map(el => $('<option />', { value: el.id, text: `${el.mark}, ${el.stateNumber}, ${el.color}  `}));
 
                     carSelect.append(options);
                     //carSelect.selectpicker({ liveSearch: true });

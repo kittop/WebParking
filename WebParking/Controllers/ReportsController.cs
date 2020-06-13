@@ -23,12 +23,49 @@ namespace WebParking.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("FreeParkingPlacesList")]
         public IActionResult FreeParkingPlacesList()
         {
             var FreeParkingPlace = _context.ParkingPlaces.Include(x => x.Responsible).Where((x) => x.Free == true).ToList();
             
             return View(FreeParkingPlace);
         }
+
+        [HttpGet("Money")]
+        public IActionResult Money()
+        {
+            var Clients = _context.Clients.ToList();
+            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+
+            var check = _context.CheckInOuts
+                .Include(x => x.Car)
+                .Include(x => x.ParkingPlace)
+                .Include(x => x.Client)
+                .Include(x => x.Responsible)
+                .Include(x => x.Tariff)
+                //.Where(x => x.ClientId == form.ClientId)
+                .ToList();
+
+            return View(check);
+        }
+
+        //[HttpPost]
+        //public IActionResult MoneyPost(MoneyReportViewModel form)
+        //{
+        //    var Clients = _context.Clients.ToList();
+        //    ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+
+        //    var check = _context.CheckInOuts
+        //        .Include(x => x.Car)
+        //        .Include(x => x.ParkingPlace)
+        //        .Include(x => x.Client)
+        //        .Include(x => x.Responsible)
+        //        .Include(x => x.Tariff)
+        //        .Where(x => x.ClientId == form.ClientId).ToList();
+
+        //    return View(check);
+        //}
+
+
     }
 }

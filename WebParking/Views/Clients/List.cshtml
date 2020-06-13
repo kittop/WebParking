@@ -73,7 +73,9 @@
             }
 
         }
+
         $(document).ready(function () {
+            $("#container").removeClass("container").addClass("container-fluid");
             $('#myTable').DataTable({
                 language: {
                     url: $("#datatable-lang").attr("href")

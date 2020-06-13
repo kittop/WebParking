@@ -42,8 +42,8 @@
                     <td>@elem.Car.Mark</td>
                     <td>@elem.Tariff.Name</td>
                     <td>@elem.ParkingPlace.Name</td>
-                    <td>@elem.DateCheckIn.ToString("dd.MM.yyyy hh:mm:ss")</td>
-                    @if (@elem.DateCheckOut.ToString("dd.MM.yyyy hh:mm:ss") == "01.01.0001 12:00:00")
+                    <td>@elem.DateCheckIn.ToString()</td>
+                    @if (@elem.DateCheckOut.ToString("dd.MM.yyyy") == "01.01.0001")
                     {
                         <td>-</td>
                     }
@@ -57,7 +57,7 @@
                     }
                     else
                     {
-                        <td>@elem.TotalHours.ToString()</td>
+                        <td>@elem.TotalHours.ToString("F2")</td>
                     }
                     @if (@elem.Sum.ToString() == "0")
                     {
@@ -65,7 +65,7 @@
                     }
                     else
                     {
-                        <td>@elem.Sum.ToString()</td>
+                        <td>@elem.Sum.ToString("F2")</td>
                     }
                     <td>@elem.Notes</td>
                     <td>@elem.Responsible.FullName</td>
@@ -97,7 +97,7 @@
             var isConfirmed = confirm(`Вы действительно хотите удалить данные об аренде ${name}`);
 
             if (isConfirmed) {
-                $.post('@Url.Action("Delete", "CheckInOuts")', { id }, function (result) {
+                $.post('@Url.Action("Delete", "CheckInOut")', { id }, function (result) {
                     console.log(result)
                     document.location.reload();
                 })
