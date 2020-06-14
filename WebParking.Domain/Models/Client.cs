@@ -16,7 +16,6 @@ namespace WebParking.Domain.Models
         [MinLength(2), MaxLength(20)]
         public string LastName { get; set; }
 
-        [Required]
         [MinLength(2), MaxLength(20)]
         public string MiddleName { get; set; }
 
@@ -54,6 +53,7 @@ namespace WebParking.Domain.Models
 
         public string FullName => $"{FirstName} {LastName} {MiddleName}";
 
+        public IList<CheckInOut> CheckInOuts { get; set; }
     }
     public enum DocumentType { Passport, Other };
 }

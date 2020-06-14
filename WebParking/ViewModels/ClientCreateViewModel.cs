@@ -14,7 +14,6 @@ namespace WebParking.ViewModels
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(20, ErrorMessage = "Максимальное количество символов не более 20!")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Отчество не указано!")]
         [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(20, ErrorMessage = "Максимальное количество символов не более 20!")]
         public string MiddleName { get; set; }
 

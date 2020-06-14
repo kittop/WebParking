@@ -85,6 +85,13 @@ namespace WebParking.Controllers
         [HttpPost]
         public IActionResult CreatePost(ClientCreateViewModel form)
         {
+            var categories = _context.ClientCategories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
+            var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
+                           select new { Id = (int)d, Name = DocTypesDesc[d] };
+            ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View("Create", form);

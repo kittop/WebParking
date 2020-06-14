@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,45 +29,39 @@ namespace WebParking.Controllers
         public IActionResult FreeParkingPlacesList()
         {
             var FreeParkingPlace = _context.ParkingPlaces.Include(x => x.Responsible).Where((x) => x.Free == true).ToList();
-            
+
             return View(FreeParkingPlace);
         }
 
         [HttpGet("Money")]
         public IActionResult Money()
         {
-            var Clients = _context.Clients.ToList();
-            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+            var pageVm = new MoneyReportViewModel();
 
-            var check = _context.CheckInOuts
-                .Include(x => x.Car)
-                .Include(x => x.ParkingPlace)
-                .Include(x => x.Client)
-                .Include(x => x.Responsible)
-                .Include(x => x.Tariff)
-                //.Where(x => x.ClientId == form.ClientId)
-                .ToList();
-
-            return View(check);
+            return View(pageVm);
         }
 
-        //[HttpPost]
-        //public IActionResult MoneyPost(MoneyReportViewModel form)
-        //{
-        //    var Clients = _context.Clients.ToList();
-        //    ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+        [HttpPost]
+        public IActionResult MoneyPost(MoneyReportViewModel form)
+        {
+            var clients = _context.Clients
+                .Include(x => x.CheckInOuts)
+                .Where(x => x.CheckInOuts.All(y => y.DateCheckOut > form.Start && y.DateCheckOut < form.Finish))
+                .ToList();
 
-        //    var check = _context.CheckInOuts
-        //        .Include(x => x.Car)
-        //        .Include(x => x.ParkingPlace)
-        //        .Include(x => x.Client)
-        //        .Include(x => x.Responsible)
-        //        .Include(x => x.Tariff)
-        //        .Where(x => x.ClientId == form.ClientId).ToList();
+            var pageVm = new MoneyReportViewModel();
 
-        //    return View(check);
-        //}
+            var dataByClient = clients.Select(client => new MoneyReportItemViewModel
+            {
+                ClientFullName = client.FullName,
+                ClientDocument = client.Document,
+                Sum = client.CheckInOuts.Sum(y => y.Sum),
+                Hours = client.CheckInOuts.Sum(y => y.TotalHours),
+            }).ToList();
 
+            pageVm.Item = dataByClient;
 
+            return View(pageVm);
+        }
     }
 }
