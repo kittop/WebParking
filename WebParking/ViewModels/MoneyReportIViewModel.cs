@@ -7,12 +7,12 @@ namespace WebParking.ViewModels
 {
     public class MoneyReportViewModel
     {
-        [Required]
-        public DateTime Start { get; set; }
+        [Required(ErrorMessage = "Укажите начальную дату!")]
+        public DateTime? Start { get; set; }
 
-        [Required]
-        public DateTime Finish { get; set; }
+        [Required(ErrorMessage = "Укажите конечную дату!")]
+        public DateTime? Finish { get; set; }
 
-        public List<MoneyReportItemViewModel> Item { get; set; }
+        public IEnumerable<MoneyReportItemViewModel> Item { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace WebParking.ViewModels
         [Required]
         public CheckType CheckType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Укажите дату заезда!")]
         public DateTime DateCheckIn { get; set; }
 
         [Required]

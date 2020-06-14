@@ -20,7 +20,7 @@ namespace WebParking.ViewModels
         public string MiddleName { get; set; }
 
         [Required(ErrorMessage = "Телефон не указан!")]
-        [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Минимальное количество символов не должно превышать 30!")]
+        [MinLength(2, ErrorMessage = "Минимальное количество символов не менее 2!"), MaxLength(30, ErrorMessage = "Максимальное количество символов не должно превышать 30!")]
         public string Telephone { get; set; }
 
         [Required(ErrorMessage = "Категория не выбрана!")] public long CategoryId { get; set; }
@@ -33,10 +33,10 @@ namespace WebParking.ViewModels
         public DocumentType DocumentType { get; set; }
 
         [Required(ErrorMessage = "Документ, удостоверяющий личность, не указан!")]
-        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(18, ErrorMessage = "Минимальное количество символов не должно превышать 18!")]
+        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(18, ErrorMessage = "Максимальное количество символов не должно превышать 18!")]
         public string Passport { get; set; }
 
-        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Минимальное количество символов не должно превышать 300!")]
+        [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]
         public string Notes { get; set; }
 
         public string ResponsibleId { get; set; }

@@ -1,4 +1,4 @@
-﻿@model List<WebParking.ViewModels.MoneyReportItemViewModel>
+﻿@model WebParking.ViewModels.MoneyReportViewModel
 
 @{
     ViewData["Title"] = "Отчёт о прибыли";
@@ -8,30 +8,65 @@
     <link id="datatable-lang" href="~/lib/datatables/Russian.json" />
 }
 
-<div class="row">
-    <div class="col-12">
-        <table id="myTable" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>ФИО</th>
-                    <th>Номер документа</th>
-                    <th>Итоговая сумма</th>
-                    <th>Длительность стоянки</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var elem in Model)
-                {
-                    <tr>
-                        <td>@elem.ClientFullName</td>
-                        <td>@elem.ClientDocument</td>
-                        <td>@elem.Sum</td>
-                        <td>@elem.Hours</td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-
+@using (Html.BeginForm("MoneyPost", "Reports"))
+{
+    
+    <div class="form-group">
+        @Html.LabelFor(x => x.Start, "Начальная дата")
+        <input type="datetime-local" asp-for="Start"  class="form-control">
+        @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
     </div>
-</div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Finish, "Конечная дата")
+        <input type="datetime-local" asp-for="Finish" class="form-control">
+        @Html.ValidationMessageFor(model => model.Finish, "", new { @class = "text-danger" })
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <input type="submit" value="Сформировать" class="btn btn-primary float-right mb-3" />
+        </div>
+    </div>
+}
+@if (Model.Item != null)
+{
+    <div class="row">
+        <div class="col-12">
+            <table id="myTable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Номер документа</th>
+                        <th>Итоговая сумма</th>
+                        <th>Длительность стоянки</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var elem in Model.Item)
+                    {
+                        @if (elem.Sum != 0 && elem.Hours != 0)
+                        {
+                            <tr>
+                                <td>@elem.ClientFullName</td>
+                                <td>@elem.ClientDocument</td>
+                                <td>@elem.Sum.ToString("F2")</td>
+                                <td>@elem.Hours.ToString("F2")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                language: {
+                    url: $("#datatable-lang").attr("href")
+                },
+            });
+        });
+    </script>
+}

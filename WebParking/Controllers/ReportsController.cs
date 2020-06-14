@@ -41,9 +41,14 @@ namespace WebParking.Controllers
             return View(pageVm);
         }
 
-        [HttpPost]
+        [HttpPost("MoneyPost")]
         public IActionResult MoneyPost(MoneyReportViewModel form)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Money", form);
+            }
+
             var clients = _context.Clients
                 .Include(x => x.CheckInOuts)
                 .Where(x => x.CheckInOuts.All(y => y.DateCheckOut > form.Start && y.DateCheckOut < form.Finish))
@@ -60,8 +65,15 @@ namespace WebParking.Controllers
             }).ToList();
 
             pageVm.Item = dataByClient;
+            pageVm.Start = form.Start;
+            pageVm.Finish = form.Finish;
 
-            return View(pageVm);
+            //if (!ModelState.IsValid)
+            //{
+            //    return View("Money", form);
+            //}
+
+            return View("Money", pageVm);
         }
     }
 }

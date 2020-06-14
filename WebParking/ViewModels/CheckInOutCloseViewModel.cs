@@ -6,13 +6,12 @@ namespace WebParking.ViewModels
 {
     public class CheckInOutCloseViewModel
     {
-        [Required]
         public long Id { get; set; }
 
         [Required]
         public CheckType CheckType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Укажите дату заезда!")]
         public DateTime DateCheckIn { get; set; }
 
         [Required]
