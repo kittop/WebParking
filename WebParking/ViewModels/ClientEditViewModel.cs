@@ -27,7 +27,7 @@ namespace WebParking.ViewModels
 
         [Required(ErrorMessage = "Дата рождения не указана!")]
         [DataType(DataType.Date, ErrorMessage = "Дата рождения не указана!")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Тип документа, удостоверяющего личность, не указан!")]
         public DocumentType DocumentType { get; set; }

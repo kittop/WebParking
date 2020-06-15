@@ -106,7 +106,7 @@ namespace WebParking.Controllers
                     MiddleName = form.MiddleName,
                     Telephone = form.Telephone,
                     CategoryId = form.CategoryId,
-                    DateOfBirth = form.DateOfBirth,
+                    DateOfBirth = form.DateOfBirth.Value,
                     Notes = form.Notes,
                     Document = form.Passport,
                     DocumentType = form.DocumentType,
@@ -140,15 +140,18 @@ namespace WebParking.Controllers
         [HttpGet("Edit/{id}")]
         public IActionResult Edit([FromRoute] long id)
         {
+            var categories = _context.ClientCategories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
+            var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
+                           select new { Id = (int)d, Name = DocTypesDesc[d] };
+            ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
+
             var client = _context.Clients.FirstOrDefault(x => x.Id == id);
             if (client == null)
             {
                 return NotFound("Не найден клиент с таким идентификатором!");
             }
-
-            var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
-                           select new { Id = (int)d, Name = DocTypesDesc[d] };
-            ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
 
             ClientEditViewModel clientEditViewModel = new ClientEditViewModel();
             clientEditViewModel.LastName = client.LastName;
@@ -170,6 +173,13 @@ namespace WebParking.Controllers
         [HttpPost("Edit")]
         public IActionResult EditPost(ClientEditViewModel form)
         {
+            var categories = _context.ClientCategories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
+            var docTypes = from DocumentType d in Enum.GetValues(typeof(DocumentType))
+                           select new { Id = (int)d, Name = DocTypesDesc[d] };
+            ViewBag.DocumentTypes = new SelectList(docTypes, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View("Edit", form);
@@ -187,7 +197,7 @@ namespace WebParking.Controllers
                 client.LastName = form.LastName;
                 client.MiddleName = form.MiddleName;
                 client.Telephone = form.Telephone;
-                client.DateOfBirth = form.DateOfBirth;
+                client.DateOfBirth = form.DateOfBirth.Value;
                 client.Notes = form.Notes;
                 client.DocumentType = form.DocumentType;
                 client.Document = form.Passport;

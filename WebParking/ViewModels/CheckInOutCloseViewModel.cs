@@ -12,21 +12,21 @@ namespace WebParking.ViewModels
         public CheckType CheckType { get; set; }
 
         [Required(ErrorMessage = "Укажите дату заезда!")]
-        public DateTime DateCheckIn { get; set; }
+        public DateTime? DateCheckIn { get; set; }
 
-        [Required]
-        public long CarId { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Укажите клиента!")]
         public long ClientId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Укажите транспортное средство!")]
+        public long CarId { get; set; }
+
+        [Required(ErrorMessage = "Укажите парковочное место!")]
         public long ParkingPlaceId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Укажите дату выезда!")]
         public DateTime? DateCheckOut { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Укажите тариф!")]
         public long TariffId { get; set; }
 
         [Required]

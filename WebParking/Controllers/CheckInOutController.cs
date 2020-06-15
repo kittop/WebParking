@@ -86,7 +86,7 @@ namespace WebParking.Controllers
                     CheckType = form.CheckType,
                     ClientId = form.ClientId,
                     CarId = form.CarId,
-                    DateCheckIn = form.DateCheckIn,
+                    DateCheckIn = form.DateCheckIn.Value,
                     DateCheckOut = form.DateCheckOut.GetValueOrDefault(),
                     ParkingPlaceId = form.ParkingPlaceId,
                     TariffId = form.TariffId,
@@ -166,8 +166,8 @@ namespace WebParking.Controllers
                 checkList.CheckType = form.CheckType;
                 //CheckList.ClientId = form.ClientId;
                 //CheckList.CarId = form.CarId;
-                checkList.DateCheckIn = form.DateCheckIn;
-                checkList.DateCheckOut = form.DateCheckOut;
+                checkList.DateCheckIn = form.DateCheckIn.Value;
+                checkList.DateCheckOut = form.DateCheckOut.Value;
                 checkList.ParkingPlaceId = form.ParkingPlaceId;
                 checkList.TariffId = form.TariffId;
                 checkList.Notes = form.Notes;
@@ -239,7 +239,7 @@ namespace WebParking.Controllers
             try
             {
                 check.CheckType = CheckType.CheckOut;
-                check.DateCheckIn = form.DateCheckIn;
+                check.DateCheckIn = form.DateCheckIn.Value;
                 check.DateCheckOut = form.DateCheckOut.Value;
 
                 var difference = check.DateCheckOut - check.DateCheckIn;

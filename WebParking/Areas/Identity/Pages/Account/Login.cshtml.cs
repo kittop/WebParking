@@ -40,12 +40,12 @@ namespace WebParking.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Укажите логин!")]
             [Display(Name = "Логин")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Укажите пароль!")]
             [Display(Name = "Пароль")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
@@ -96,7 +96,7 @@ namespace WebParking.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Неудачная попытка входа.");
                     return Page();
                 }
             }

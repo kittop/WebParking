@@ -49,19 +49,18 @@ namespace WebParking.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Укажите фамилию!")]
             [Display(Name = "Фамилия")]
             public string LastName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Укажите имя!")]
             [Display(Name = "Имя")]
             public string FirstName { get; set; }
 
-            [Required]
             [Display(Name = "Отчество")]
             public string MiddleName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Укажите Email!")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -70,7 +69,7 @@ namespace WebParking.Areas.Identity.Pages.Account
             [Display(Name = "Администратор")]
             public bool IsAdmin { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Укажите пароль!")]
             [StringLength(100, ErrorMessage = "{0} должно быть не менее {2} и не более {1} символов.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Пароль")]
@@ -78,7 +77,7 @@ namespace WebParking.Areas.Identity.Pages.Account
 
             [DataType(DataType.Password)]
             [Display(Name = "Подтвердите пароль")]
-            [Compare("Password", ErrorMessage = "Пароль и пароль подтверждения не совпадают.")]
+            [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
             public string ConfirmPassword { get; set; }
         }
 

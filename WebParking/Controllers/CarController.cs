@@ -45,6 +45,12 @@ namespace WebParking.Controllers
         [HttpPost]
         public IActionResult CreatePost(CarCreateViewModel form)
         {
+            var Clients = _context.Clients.ToList();
+            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+
+            var Categories = _context.CarCategories.ToList();
+            ViewBag.Categories = new SelectList(Categories, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
@@ -84,17 +90,17 @@ namespace WebParking.Controllers
         [HttpGet("Edit/{id}")]
         public IActionResult Edit([FromRoute] long id)
         {
-            var car = _context.Cars.FirstOrDefault(x => x.Id == id);
-            if (car == null)
-            {
-                return NotFound("Не найдено транспортное средство с таким идентификатором!");
-            }
             var Clients = _context.Clients.ToList();
             ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
 
             var Categories = _context.CarCategories.ToList();
             ViewBag.Categories = new SelectList(Categories, "Id", "Name");
 
+            var car = _context.Cars.FirstOrDefault(x => x.Id == id);
+            if (car == null)
+            {
+                return NotFound("Не найдено транспортное средство с таким идентификатором!");
+            }
 
             CarEditViewModel carEditViewModel = new CarEditViewModel();
             carEditViewModel.ClientId = car.ClientId;
@@ -113,6 +119,12 @@ namespace WebParking.Controllers
         [HttpPost("Edit")]
         public IActionResult EditPost(CarEditViewModel form)
         {
+            var Clients = _context.Clients.ToList();
+            ViewBag.Clients = new SelectList(Clients, "Id", "FullName");
+
+            var Categories = _context.CarCategories.ToList();
+            ViewBag.Categories = new SelectList(Categories, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View("Edit", form);

@@ -51,7 +51,7 @@ namespace WebParking.Domain.Models
         [Required]
         public IList<Car> Cars { get; set; }
 
-        public string FullName => $"{FirstName} {LastName} {MiddleName}";
+        public string FullName => $"{LastName} {FirstName} {MiddleName}";
 
         public IList<CheckInOut> CheckInOuts { get; set; }
     }

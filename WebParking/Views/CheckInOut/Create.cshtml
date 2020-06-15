@@ -32,7 +32,7 @@
 
     <div class="form-group">
         @Html.LabelFor(x => x.DateCheckOut, "Предполагаемая дата выезда")
-        <input type="datetime-local" asp-for="DateCheckOut" class="form-control">
+        <input type="datetime-local" asp-for="DateCheckOut" class="form-control" min=DateTime.Now>
         @Html.ValidationMessageFor(model => model.DateCheckOut, "", new { @class = "text-danger" })
     </div>
 

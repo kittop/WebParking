@@ -15,7 +15,6 @@ namespace WebParking.ViewModels
         [Required(ErrorMessage = "Цена не указана!")]
         public double Price { get; set; }
 
-        [Required(ErrorMessage = "Вид начисления не указан!")]
         public AccrualType AccrualType { get; set; }
 
         [MinLength(4, ErrorMessage = "Минимальное количество символов не менее 4!"), MaxLength(300, ErrorMessage = "Максимальное количество символов не должно превышать 300!")]

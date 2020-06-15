@@ -49,6 +49,10 @@ namespace WebParking.Controllers
         [HttpPost]
         public IActionResult CreatePost(TariffCreateViewModel form)
         {
+            var accTypes = from AccrualType d in Enum.GetValues(typeof(AccrualType))
+                           select new { Id = (int)d, Name = AccrualTypesDesc[d] };
+            ViewBag.AccrualTypes = new SelectList(accTypes, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View("Create", form);
@@ -84,18 +88,19 @@ namespace WebParking.Controllers
         [HttpGet("Edit/{id}")]
         public IActionResult Edit([FromRoute] long id)
         {
+            var accTypes = from AccrualType d in Enum.GetValues(typeof(AccrualType))
+                           select new { Id = (int)d, Name = AccrualTypesDesc[d] };
+            ViewBag.AccrualTypes = new SelectList(accTypes, "Id", "Name");
+
             var tariff = _context.Tariffies.FirstOrDefault(x => x.Id == id);
             if (tariff == null)
             {
                 return NotFound("Не найден тариф с таким идентификатором!");
             }
-            var accTypes = from AccrualType d in Enum.GetValues(typeof(AccrualType))
-                           select new { Id = (int)d, Name = AccrualTypesDesc[d] };
-            ViewBag.AccrualTypes = new SelectList(accTypes, "Id", "Name");
 
             TariffEditViewModel tariffEditViewModel = new TariffEditViewModel();
             tariffEditViewModel.Name = tariff.Name;
-            tariffEditViewModel.Price = tariff.Price;
+            tariffEditViewModel.Price = (double)tariff.Price;
             tariffEditViewModel.Notes = tariff.Notes;
             tariffEditViewModel.AccrualType = tariff.AccrualType;
             tariffEditViewModel.Id = tariff.Id;
@@ -106,6 +111,10 @@ namespace WebParking.Controllers
         [HttpPost("Edit")]
         public IActionResult EditPost(TariffEditViewModel form)
         {
+            var accTypes = from AccrualType d in Enum.GetValues(typeof(AccrualType))
+                           select new { Id = (int)d, Name = AccrualTypesDesc[d] };
+            ViewBag.AccrualTypes = new SelectList(accTypes, "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View("Edit", form);
