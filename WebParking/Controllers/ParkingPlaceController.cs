@@ -154,8 +154,6 @@ namespace WebParking.Controllers
                 var Count = form.Count;
                 var Start = (int)form.Start;
 
-
-
                 for (int i = Start; i < Count + 1; i++)
                 {
                     ParkingPlace parkingPlace = new ParkingPlace
@@ -177,7 +175,7 @@ namespace WebParking.Controllers
             {
                 if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_ParkingPlaces_Name")
                 {
-                    ModelState.AddModelError(nameof(ParkingPlaceFillViewModel.Count), "Наименование не уникально. Записи не созданы Смотрите справочник!");
+                    ModelState.AddModelError(nameof(ParkingPlaceFillViewModel.Count), "Наименование не уникально. Записи не созданы. Смотрите справочник!");
                 }
                 else
                 {
