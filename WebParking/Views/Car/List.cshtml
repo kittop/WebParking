@@ -63,7 +63,7 @@
             var isConfirmed = confirm(`Вы действительно хотите удалить транспортное средство ${name}`);
 
             if (isConfirmed) {
-                $.post('@Url.Action("Delete", "Auto")', { id }, function (result) {
+                $.post('@Url.Action("Delete", "Car")', { id }, function (result) {
                     console.log(result)
                     document.location.reload();
                 })
