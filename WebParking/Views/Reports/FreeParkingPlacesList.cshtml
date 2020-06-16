@@ -23,24 +23,36 @@
             <tbody>
                 @foreach (var elem in Model)
                 {
-                <tr>
-                    <td>@elem.Name</td>
-                    @if (elem.Free)
-                    {
-                        <td>Да</td>
-                    }
-                    else
-                    {
-                        <td>Нет</td>
-                    }
-                    <td>@elem.Notes</td>
-                    <td>@elem.Responsible.FullName</td>
-                    <td>@elem.Creation</td>
-                </tr>
-                    }
-                </tbody>
+                    <tr>
+                        <td>@elem.Name</td>
+                        @if (elem.Free)
+                        {
+                            <td>Да</td>
+                        }
+                        else
+                        {
+                            <td>Нет</td>
+                        }
+                        <td>@elem.Notes</td>
+                        <td>@elem.Responsible.FullName</td>
+                        <td>@elem.Creation</td>
+                    </tr>
+                }
+            </tbody>
 
-            </table>
+        </table>
 
-        </div>
     </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                language: {
+                    url: $("#datatable-lang").attr("href")
+                },
+            });
+        });
+    </script>
+}
