@@ -94,15 +94,20 @@ namespace WebParking.Controllers
                     ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value
                 };
 
+                if (CheckList.DateCheckOut <= CheckList.DateCheckIn)
+                {
+                    ModelState.AddModelError(nameof(CheckInOutCreateViewModel.DateCheckOut), "Дата выезда не может быть раньше заезда!");
+                }
+                else
+                {
+                    _context.CheckInOuts.Add(CheckList);
 
-                _context.CheckInOuts.Add(CheckList);
-                
-                var place = _context.ParkingPlaces.Where(x => x.Id == form.ParkingPlaceId).First();
-                place.Free = false;
-                _context.ParkingPlaces.Update(place);
-               
-                _context.SaveChanges();
+                    var place = _context.ParkingPlaces.Where(x => x.Id == form.ParkingPlaceId).First();
+                    place.Free = false;
+                    _context.ParkingPlaces.Update(place);
 
+                    _context.SaveChanges();
+                }
             }
             catch (Exception)
             {
@@ -173,8 +178,16 @@ namespace WebParking.Controllers
                 checkList.Notes = form.Notes;
                 checkList.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
 
-                _context.CheckInOuts.Update(checkList);
-                _context.SaveChanges();
+                if (checkList.DateCheckOut <= checkList.DateCheckIn)
+                {
+                    ModelState.AddModelError(nameof(CheckInOutEditViewModel.DateCheckOut), "Дата выезда не может быть раньше заезда!");
+                }
+                else
+                {
+                    _context.CheckInOuts.Update(checkList);
+                    _context.SaveChanges();
+                }
+
             }
             catch (Exception)
             {
@@ -242,37 +255,46 @@ namespace WebParking.Controllers
                 check.DateCheckIn = form.DateCheckIn.Value;
                 check.DateCheckOut = form.DateCheckOut.Value;
 
-                var difference = check.DateCheckOut - check.DateCheckIn;
-                var tariff = _context.Tariffies.First(x => x.Id == check.TariffId);
-
-                if (tariff.AccrualType == AccrualType.Hourly)
+                if (check.DateCheckOut <= check.DateCheckIn)
                 {
-                    var hours = difference.TotalHours;
-                    var sum = hours * tariff.Price;
-
-                    check.Sum = sum;
-                    check.TotalHours = hours;
+                    ModelState.AddModelError(nameof(CheckInOutCloseViewModel.DateCheckOut), "Дата выезда не может быть раньше заезда!");
                 }
                 else
                 {
-                    var hours = difference.TotalHours / 24;
-                    var sum = hours * tariff.Price;
+                    var difference = check.DateCheckOut - check.DateCheckIn;
+                    var tariff = _context.Tariffies.First(x => x.Id == check.TariffId);
 
-                    check.Sum = sum;
-                    check.TotalHours = hours;
+                    if (tariff.AccrualType == AccrualType.Hourly)
+                    {
+                        var hours = difference.TotalHours;
+                        var sum = hours * tariff.Price;
+
+                        check.Sum = sum;
+                        check.TotalHours = hours;
+                    }
+                    else
+                    {
+                        var hours = difference.TotalHours / 24;
+                        var sum = hours * tariff.Price;
+
+                        check.Sum = sum;
+                        check.TotalHours = hours;
+                    }
+
+                    check.Notes = form.Notes;
+                    check.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+
+
+                    _context.CheckInOuts.Update(check);
+
+                    var place = check.ParkingPlace;
+                    place.Free = true;
+                    _context.ParkingPlaces.Update(place);
+
+                    _context.SaveChanges();
+
                 }
 
-                check.Notes = form.Notes;
-                check.ResponsibleId = User.Claims.Single((x) => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-
-                
-                _context.CheckInOuts.Update(check);
-
-                var place = check.ParkingPlace;
-                place.Free = true;
-                _context.ParkingPlaces.Update(place);
-
-                _context.SaveChanges();
             }
             catch (Exception)
             {
