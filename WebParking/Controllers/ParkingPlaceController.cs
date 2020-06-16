@@ -124,7 +124,7 @@ namespace WebParking.Controllers
             {
                 if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_ParkingPlaces_Name")
                 {
-                    ModelState.AddModelError(nameof(ParkingPlaceEditViewModel.Name), "Наименование не уникально!");
+                    ModelState.AddModelError(nameof(ParkingPlaceEditViewModel.Name), "Наименование не уникально. Записи не созданы Смотрите справочник!");
                 }
                 else
                 {
@@ -177,7 +177,7 @@ namespace WebParking.Controllers
             {
                 if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_ParkingPlaces_Name")
                 {
-                    ModelState.AddModelError(nameof(ParkingPlaceEditViewModel.Name), "Наименование не уникально!");
+                    ModelState.AddModelError(nameof(ParkingPlaceFillViewModel.Count), "Наименование не уникально. Записи не созданы Смотрите справочник!");
                 }
                 else
                 {
