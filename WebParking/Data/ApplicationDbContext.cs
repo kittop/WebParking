@@ -57,12 +57,18 @@ namespace WebParking.Data
                 x.Property(x => x.Creation)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                x.HasIndex(b => b.Name)
+                .IsUnique();
+
             });
 
             builder.Entity<ParkingPlace>(x =>
             {
                 x.Property(x => x.Creation)
                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                x.HasIndex(b => b.Name)
+                .IsUnique();
+
             });
 
             builder.Entity<CheckInOut>(x =>

@@ -74,9 +74,16 @@ namespace WebParking.Controllers
                 _context.SaveChanges();
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Cars_StateNumber")
+                {
+                    ModelState.AddModelError(nameof(CarCreateViewModel.StateNumber), "Государственный номер не уникален!");
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             if (!ModelState.IsValid)
@@ -150,9 +157,16 @@ namespace WebParking.Controllers
                 _context.Cars.Update(car);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Cars_StateNumber")
+                {
+                    ModelState.AddModelError(nameof(CarEditViewModel.StateNumber), "Государственный номер не уникален!");
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToAction(nameof(List));

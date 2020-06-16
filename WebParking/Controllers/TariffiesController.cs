@@ -73,8 +73,16 @@ namespace WebParking.Controllers
                 _context.SaveChanges();
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Tariffies_Name")
+                {
+                    ModelState.AddModelError(nameof(TariffCreateViewModel.Name), "Наименование не уникально!");
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             if (!ModelState.IsValid)
@@ -136,8 +144,16 @@ namespace WebParking.Controllers
                 _context.Tariffies.Update(tariff);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_Tariffies_Name")
+                {
+                    ModelState.AddModelError(nameof(TariffEditViewModel.Name), "Наименование не уникально!");
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToAction(nameof(List));

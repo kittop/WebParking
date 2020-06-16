@@ -57,9 +57,16 @@ namespace WebParking.Controllers
                 _context.SaveChanges();
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw;
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_CarCategories_Name")
+                {
+                    ModelState.AddModelError(nameof(CarCategoriesCreateViewModel.Name), "Наименование не уникально!");
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             if (!ModelState.IsValid)
@@ -109,10 +116,18 @@ namespace WebParking.Controllers
                 _context.CarCategories.Update(carCategories);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw;
+                if (((Npgsql.PostgresException)exception.InnerException).ConstraintName == "IX_CarCategories_Name")
+                {
+                    ModelState.AddModelError(nameof(CarCategoriesEditViewModel.Name), "Наименование не уникально!");
+                }
+                else
+                {
+                    throw;
+                }
             }
+
 
             return RedirectToAction(nameof(List));
         }
